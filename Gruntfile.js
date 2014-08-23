@@ -10,9 +10,12 @@ module.exports = function (grunt) {
             install: {
             }
         },
-        buildGhPages: {
-            options: {
-                pull: false
+        copy: {
+            main: {
+                files: [
+                    {expand: true, src: ['src/**'], dest: 'dist/'},
+                    {expand: true, src: ['lib/canvasjs*'], dest: 'dist/'}
+                ]
             }
         },
         'gh-pages': {
@@ -41,8 +44,8 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-build-gh-pages');
     grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-tsd');
