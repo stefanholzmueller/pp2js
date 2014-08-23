@@ -2,4 +2,7 @@
 /dist/
 /lib/
 /node_modules/
+/src/ts/**/*.js
+/src/ts/**/*.js.map
 /typings/
+
