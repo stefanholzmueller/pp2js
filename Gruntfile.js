@@ -2,16 +2,24 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         bower: {
-	    dist: {
-	        options: {
-		    targetDir: 'dist/lib'
-		}
-	    },
+            dist: {
+                options: {
+                    targetDir: 'dist/lib'
+                }
+            },
             install: {
             }
         },
+        buildGhPages: {
+            options: {
+                pull: false
+            }
+        },
         'gh-pages': {
-            src: ['dist/**/*']
+            options: {
+                base: 'dist'
+            },
+            src: ['**/*']
         },
         tsd: {
             refresh: {
@@ -33,6 +41,7 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-build-gh-pages');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
