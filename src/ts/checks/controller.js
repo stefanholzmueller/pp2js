@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="utils.ts" />
 /// <reference path="calculate.ts" />
 "use strict";
 var module = angular.module('pp2.check', []);
@@ -33,10 +34,44 @@ module.controller('CheckController', [
             ]
         });
 
-        $scope.$watch("check", function (newValue) {
-            var partitioned = Checks.calculatePartitionedMemoized(newValue);
+        $scope.canvasjsBarChart = new CanvasJS.Chart("canvasjsBarChart", {
+            data: []
+        });
+
+        $scope.$watch("check", function (newCheck) {
+            var partitioned = Checks.calculatePartitionedMemoized(newCheck);
             $scope.canvasjsPieChart.options.data[0].dataPoints = toCanvasjsPieDataPoints(partitioned);
             $scope.canvasjsPieChart.render();
+
+            var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, newCheck.difficulty]).sort(function (a, b) {
+                return a - b;
+            });
+            var checks = _.map(difficulties, function (difficulty) {
+                var check = _.merge(_.cloneDeep(newCheck), { difficulty: difficulty });
+                check.result = Checks.calculatePartitionedMemoized(check);
+                return check;
+            });
+            var dataPointsSuccess = _.map(checks, function (check) {
+                var failureCount = check.result[1].count;
+                return { y: 8000 - failureCount, label: difficultyToString(check.difficulty), color: (newCheck.difficulty === check.difficulty ? '#008000' : '#609060') };
+            });
+            var dataPointsFailure = _.map(checks, function (check) {
+                return { y: check.result[1].count, label: difficultyToString(check.difficulty), color: (newCheck.difficulty === check.difficulty ? '#bb0000' : '#cc5050') };
+            });
+
+            $scope.canvasjsBarChart.options.data = [
+                {
+                    type: "stackedBar100",
+                    color: "#008000",
+                    dataPoints: dataPointsSuccess
+                },
+                {
+                    type: "stackedBar100",
+                    color: "#bb0000",
+                    dataPoints: dataPointsFailure
+                }
+            ];
+            $scope.canvasjsBarChart.render();
         }, true);
 
         function toCanvasjsPieDataPoints(partitioned) {
