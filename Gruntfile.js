@@ -20,7 +20,8 @@ module.exports = function (grunt) {
         },
         'gh-pages': {
             options: {
-                base: 'dist'
+                base: 'dist',
+		push: false
             },
             src: ['**/*']
         },
@@ -50,5 +51,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-gh-pages');
     grunt.loadNpmTasks('grunt-tsd');
 
-    grunt.registerTask('dist', ['bower:dist', 'gh-pages']);
+    grunt.registerTask('dist', ['bower:dist', 'copy', 'gh-pages']);
 }
