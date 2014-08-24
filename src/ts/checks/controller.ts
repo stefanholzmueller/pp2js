@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts" />
+/// <reference path="utils.ts" />
 /// <reference path="calculate.ts" />
 "use strict";
 
@@ -51,51 +52,27 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 			check.result = Checks.calculatePartitionedMemoized(check);
 			return check;
 		});
-		var dataPoints = _.map(checks, function (check : any) {
-			return { y: check.result[1].count, label: "difficulty = " + check.difficulty };
+		var dataPointsSuccess = _.map(checks, function (check : any) {
+			var failureCount = check.result[1].count;
+			return { y: 8000 - failureCount, label: difficultyToString(check.difficulty), color : (newCheck.difficulty === check.difficulty ? '#008000' : '#609060') };
+		});
+		var dataPointsFailure = _.map(checks, function (check : any) {
+			return { y: check.result[1].count, label: difficultyToString(check.difficulty), color : (newCheck.difficulty === check.difficulty ? '#bb0000' : '#cc5050') };
 		});
 
 		$scope.canvasjsBarChart.options.data = [
 			{
 				type: "stackedBar100",
+				color: "#008000",
+				dataPoints: dataPointsSuccess
+			},
+			{
+				type: "stackedBar100",
 				color: "#bb0000",
-				dataPoints: dataPoints
+				dataPoints: dataPointsFailure
 			}
 		];
 		$scope.canvasjsBarChart.render();
-
-//	$scope.canvasjsBarChart.options.data = [
-//		{
-//			type: "stackedBar100",
-//			color: "#008000",
-//			dataPoints: [
-//				{y: 1 },
-//				{y: 5 },
-//				{y: 20 }
-//
-//			]
-//		},
-//		{
-//			type: "stackedBar100",
-//			color: "#008000",
-//			dataPoints: [
-//				{y: 0},
-//				{y: 10 },
-//				{y: 20, toolTipContent: "gelungen mit 0" }
-//
-//			]
-//		},
-//		{
-//			type: "stackedBar100",
-//			color: "#bb0000",
-//			dataPoints: [
-//				{y: 99, label: "erschwert um 12" },
-//				{y: 85, label: "erschwert um 4" },
-//				{y: 60, label: "nicht modifiziert" }
-//			]
-//		}
-//
-//	]	;
 	}, true);
 
 	function toCanvasjsPieDataPoints(partitioned) {
@@ -112,34 +89,5 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 		return dataPoints;
 	}
 
-	function toCanvasjsBarData(partitioned) {
-		var partitions : Array<{count; quality;}> = partitioned[0].partitions;
-		var data : any = _.map(partitions, function (p) {
-			return {
-				type: "stackedBar100",
-				dataPoints: [
-					{
-						label: "gelungen mit " + p.quality,
-						x: p.quality,
-						y: p.count,
-						color: "#008000",
-						toolTipContent: "gelungen mit {x}"
-					}
-				]
-			};
-		});
-		data.push({
-			type: "stackedBar100",
-			dataPoints: [
-				{
-					label: "misslungen",
-					y: partitioned[1].count,
-					color: "#bb0000",
-					toolTipContent: "misslungen"
-				}
-			]
-		});
-		return data;
-	}
-}])
-;
+}]);
+
