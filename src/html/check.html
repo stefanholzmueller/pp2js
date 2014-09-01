@@ -12,7 +12,7 @@
     <script src="../../lib/bootstrap/bootstrap.js"></script>
     <script src="../../lib/fastclick/fastclick.js"></script>
     <script>
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             FastClick.attach(document.body);
         }, false);
     </script>
@@ -66,9 +66,8 @@
                     </div>
                 </div>
             </div>
-            <div id="canvasjsPieChart" style="height: 100%; width: 100%;" class="center-block">
-            </div>
-            <canvasjs-chart id="barChart" data="barData" />
+            <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
         </form>
     </div>
 </div>

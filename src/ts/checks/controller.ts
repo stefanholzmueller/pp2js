@@ -17,8 +17,9 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 		}
 	};
 
-	$scope.canvasjsPieChart = new CanvasJS.Chart("canvasjsPieChart", {
-		data: [
+	$scope.$watch("check", function (newCheck) {
+		var partitioned = Checks.calculatePartitionedMemoized(newCheck);
+		$scope.pieData = [
 			{
 				type: "pie",
 				startAngle: -90,
@@ -28,15 +29,9 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 				axisY: {
 					margin: 0
 				},
-				dataPoints: []
+				dataPoints: toCanvasjsPieDataPoints(partitioned)
 			}
-		]
-	});
-
-	$scope.$watch("check", function (newCheck) {
-		var partitioned = Checks.calculatePartitionedMemoized(newCheck);
-		$scope.canvasjsPieChart.options.data[0].dataPoints = toCanvasjsPieDataPoints(partitioned);
-		$scope.canvasjsPieChart.render();
+		];
 
 		var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, newCheck.difficulty]).sort((a, b) => a - b);
 		var checks = _.map(difficulties, function (difficulty) {
