@@ -2,7 +2,7 @@
 /// <reference path="utils.ts" />
 /// <reference path="calculate.ts" />
 "use strict";
-var module = angular.module('pp2.check', []);
+var module = angular.module('pp2.check', ['pp2.chart']);
 
 module.controller('CheckController', [
     '$scope', function ($scope) {
@@ -15,11 +15,9 @@ module.controller('CheckController', [
             }
         };
 
-        $scope.canvasjsPieChart = new CanvasJS.Chart("canvasjsPieChart", {
-            animationEnabled: false,
-            //		creditLink: null,
-            //		creditText: null,
-            data: [
+        $scope.$watch("check", function (newCheck) {
+            var partitioned = Checks.calculatePartitionedMemoized(newCheck);
+            $scope.pieData = [
                 {
                     type: "pie",
                     startAngle: -90,
@@ -29,19 +27,9 @@ module.controller('CheckController', [
                     axisY: {
                         margin: 0
                     },
-                    dataPoints: []
+                    dataPoints: toCanvasjsPieDataPoints(partitioned)
                 }
-            ]
-        });
-
-        $scope.canvasjsBarChart = new CanvasJS.Chart("canvasjsBarChart", {
-            data: []
-        });
-
-        $scope.$watch("check", function (newCheck) {
-            var partitioned = Checks.calculatePartitionedMemoized(newCheck);
-            $scope.canvasjsPieChart.options.data[0].dataPoints = toCanvasjsPieDataPoints(partitioned);
-            $scope.canvasjsPieChart.render();
+            ];
 
             var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, newCheck.difficulty]).sort(function (a, b) {
                 return a - b;
@@ -59,7 +47,7 @@ module.controller('CheckController', [
                 return { y: check.result[1].count, label: difficultyToString(check.difficulty), color: (newCheck.difficulty === check.difficulty ? '#bb0000' : '#cc5050') };
             });
 
-            $scope.canvasjsBarChart.options.data = [
+            $scope.barData = [
                 {
                     type: "stackedBar100",
                     color: "#008000",
@@ -71,7 +59,6 @@ module.controller('CheckController', [
                     dataPoints: dataPointsFailure
                 }
             ];
-            $scope.canvasjsBarChart.render();
         }, true);
 
         function toCanvasjsPieDataPoints(partitioned) {

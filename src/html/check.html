@@ -12,12 +12,13 @@
     <script src="../../lib/bootstrap/bootstrap.js"></script>
     <script src="../../lib/fastclick/fastclick.js"></script>
     <script>
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             FastClick.attach(document.body);
         }, false);
     </script>
     <script src="../../lib/canvasjs.min.js"></script>
 
+    <script src="../js/chart.js"></script>
     <script src="../ts/utils.js"></script>
     <script src="../ts/checks/utils.js"></script>
     <script src="../ts/checks/evaluate.js"></script>
@@ -34,7 +35,7 @@
 <body data-ng-app="pp2">
 <div data-ng-controller="CheckController">
     <div class="container">
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" ng-cloak>
             <div class="form-group">
                 <label for="attributesInput" class="control-label col-xs-4">Eigenschaften</label>
 
@@ -65,10 +66,8 @@
                     </div>
                 </div>
             </div>
-            <div id="canvasjsPieChart" style="height: 100%; width: 100%;" class="center-block">
-            </div>
-            <div id="canvasjsBarChart" style="height: 100%; width: 100%;" class="center-block">
-            </div>
+            <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
         </form>
     </div>
 </div>

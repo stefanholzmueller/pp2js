@@ -5,7 +5,7 @@
 
 declare var CanvasJS : any;
 
-var module = angular.module('pp2.check', []);
+var module = angular.module('pp2.check', ['pp2.chart']);
 
 module.controller('CheckController', [ '$scope', function ($scope) {
 	var check : Checks.Check = $scope.check = {
@@ -17,11 +17,9 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 		}
 	};
 
-	$scope.canvasjsPieChart = new CanvasJS.Chart("canvasjsPieChart", {
-		animationEnabled: false,
-//		creditLink: null,
-//		creditText: null,
-		data: [
+	$scope.$watch("check", function (newCheck) {
+		var partitioned = Checks.calculatePartitionedMemoized(newCheck);
+		$scope.pieData = [
 			{
 				type: "pie",
 				startAngle: -90,
@@ -31,20 +29,9 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 				axisY: {
 					margin: 0
 				},
-				dataPoints: []
+				dataPoints: toCanvasjsPieDataPoints(partitioned)
 			}
-		]
-	});
-
-	$scope.canvasjsBarChart = new CanvasJS.Chart("canvasjsBarChart", {
-		data: [
-		]
-	});
-
-	$scope.$watch("check", function (newCheck) {
-		var partitioned = Checks.calculatePartitionedMemoized(newCheck);
-		$scope.canvasjsPieChart.options.data[0].dataPoints = toCanvasjsPieDataPoints(partitioned);
-		$scope.canvasjsPieChart.render();
+		];
 
 		var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, newCheck.difficulty]).sort((a, b) => a - b);
 		var checks = _.map(difficulties, function (difficulty) {
@@ -60,7 +47,7 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 			return { y: check.result[1].count, label: difficultyToString(check.difficulty), color : (newCheck.difficulty === check.difficulty ? '#bb0000' : '#cc5050') };
 		});
 
-		$scope.canvasjsBarChart.options.data = [
+		$scope.barData = [
 			{
 				type: "stackedBar100",
 				color: "#008000",
@@ -72,7 +59,6 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 				dataPoints: dataPointsFailure
 			}
 		];
-		$scope.canvasjsBarChart.render();
 	}, true);
 
 	function toCanvasjsPieDataPoints(partitioned) {
@@ -90,4 +76,3 @@ module.controller('CheckController', [ '$scope', function ($scope) {
 	}
 
 }]);
-

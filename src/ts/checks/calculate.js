@@ -39,6 +39,7 @@ var Checks;
     Checks.calculate = calculate;
 
     function calculatePartitioned(check) {
+        validateCheck(check);
         var evaluator = _.partial(Checks.evaluate, check.options, check.attributes, check.value, check.difficulty);
         var outcomes = _.map(COMBINATIONS, function (dice) {
             return evaluator(dice);
@@ -63,5 +64,20 @@ var Checks;
     Checks.calculatePartitionedMemoized = _.memoize(calculatePartitioned, function (check) {
         return _.sortBy(check.attributes) + "|" + check.value + "|" + check.difficulty + "|" + check.options.minimumQuality;
     });
+
+    function validateCheck(check) {
+        if (!_.all(check.attributes, _.isNumber)) {
+            throw "attributes contain invalid numbers";
+        }
+        if (!_.isNumber(check.value)) {
+            throw "value is invalid";
+        }
+        if (!_.isNumber(check.difficulty)) {
+            throw "difficulty is invalid";
+        }
+        if (!_.isBoolean(check.options.minimumQuality)) {
+            throw "minimumQuality is invalid";
+        }
+    }
 })(Checks || (Checks = {}));
 //# sourceMappingURL=calculate.js.map
