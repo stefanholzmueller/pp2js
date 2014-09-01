@@ -18,6 +18,7 @@
     </script>
     <script src="../../lib/canvasjs.min.js"></script>
 
+    <script src="../js/chart.js"></script>
     <script src="../ts/utils.js"></script>
     <script src="../ts/checks/utils.js"></script>
     <script src="../ts/checks/evaluate.js"></script>
@@ -67,8 +68,7 @@
             </div>
             <div id="canvasjsPieChart" style="height: 100%; width: 100%;" class="center-block">
             </div>
-            <div id="canvasjsBarChart" style="height: 100%; width: 100%;" class="center-block">
-            </div>
+            <canvasjs-chart id="barChart" data="barData" />
         </form>
     </div>
 </div>
