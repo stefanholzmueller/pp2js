@@ -6,15 +6,18 @@ var module = angular.module('pp2.chart', []);
 module.directive('canvasjsChart', function() {
     return {
         restrict: 'E',
+        scope: {
+            id: "@",
+            data: "="
+        },
         link: function(scope, element, attrs) {
-            var id = scope.id = attrs.id;
-            var chart = new CanvasJS.Chart(id, {});
+            var chart = new CanvasJS.Chart(scope.id, {});
 
-            scope.$watch(attrs.data, function(newData) {
+            scope.$watch("data", function(newData) {
                 chart.options.data = newData;
                 chart.render();
             });
         },
-        template: '<div id="barChart" style="height: 100%; width: 100%;" class="center-block">'
+        template: '<div id="{{id}}" style="height: 100%; width: 100%;" class="center-block">'
     };
 });
