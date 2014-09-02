@@ -2,6 +2,7 @@
 
 
 define(['angular', 'canvasjs'], function (angular) {
+
     return angular.module('pp2.chart', []).directive('canvasjsChart', function () {
         return {
             restrict: 'E',

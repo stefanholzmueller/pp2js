@@ -6,29 +6,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <script src="../../lib/lodash/lodash.compat.js"></script>
-    <script src="../../lib/jquery/jquery.js"></script>
-    <script src="../../lib/bootstrap/bootstrap.js"></script>
-    <script src="../../lib/fastclick/fastclick.js"></script>
+    <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
     <script>
         window.addEventListener('load', function () {
             FastClick.attach(document.body);
         }, false);
     </script>
 
-    <script src="../ts/checks/evaluate.js"></script>
-    <script src="../ts/checks/calculate.js"></script>
     <!--    <script src="//localhost:35729/livereload.js"></script> -->
 
-    <link rel="stylesheet" href="../../lib/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="../css/pp.css">
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../pp2.css">
 
     <title>Probenprophet 2.0</title>
 </head>
 <body data-ng-app="pp2">
 <div data-ng-controller="CheckController">
     <div class="container">
-        <form class="form-horizontal" role="form" ng-cloak>
+        <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label for="attributesInput" class="control-label col-xs-4">Eigenschaften</label>
 
@@ -88,6 +83,6 @@
             <pre>outcome={{outcome | json}}</pre>
         </div>
         -->
-    <script data-main="../js/main" src="../../bower_components/requirejs/require.js"></script>
+    <script data-main="../main" src="../../bower_components/requirejs/require.js"></script>
 </body>
 </html>

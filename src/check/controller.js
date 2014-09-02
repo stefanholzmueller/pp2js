@@ -1,6 +1,7 @@
 'use strict';
 
-define(['angular', 'chart'], function (angular) {
+
+define(['angular', 'check/calculator', 'check/chart'], function (angular, calculator) {
 
     return angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scope', function ($scope) {
         var check = $scope.check = {
@@ -13,7 +14,7 @@ define(['angular', 'chart'], function (angular) {
         };
 
         $scope.$watch("check", function (newCheck) {
-            var partitioned = Checks.calculatePartitionedMemoized(newCheck);
+            var partitioned = calculator.calculatePartitionedMemoized(newCheck);
             $scope.pieData = [
                 {
                     type: "pie",
@@ -33,7 +34,7 @@ define(['angular', 'chart'], function (angular) {
             });
             var checks = _.map(difficulties, function (difficulty) {
                 var check = _.merge(_.cloneDeep(newCheck), { difficulty: difficulty });
-                check.result = Checks.calculatePartitionedMemoized(check);
+                check.result = calculator.calculatePartitionedMemoized(check);
                 return check;
             });
             var dataPointsSuccess = _.map(checks, function (check) {
