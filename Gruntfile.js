@@ -2,18 +2,17 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         bower: {
-            dist: {
-                options: {
-                    targetDir: 'dist/bower_components'
-                }
-            },
             install: {
+                options: {
+                    targetDir: 'lib'
+                }
             }
         },
         copy: {
             main: {
                 files: [
-                    {expand: true, src: ['src/**'], dest: 'dist/'}
+                    {expand: true, src: ['src/**'], dest: 'dist/'},
+                    {expand: true, src: ['lib/**'], dest: 'dist/'}
                 ]
             }
         },
@@ -37,5 +36,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
 
-    grunt.registerTask('dist', ['bower:dist', 'copy', 'gh-pages']);
+    grunt.registerTask('dist', ['bower', 'copy', 'gh-pages']);
 }
