@@ -13,8 +13,7 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [
-                    {expand: true, src: ['src/**'], dest: 'dist/'},
-                    {expand: true, src: ['lib/canvasjs*'], dest: 'dist/'}
+                    {expand: true, src: ['src/**'], dest: 'dist/'}
                 ]
             }
         },

@@ -3,7 +3,8 @@
 
 require.config({
     paths: {
-        angular: '../../bower_components/angular/angular'
+        angular: '../../bower_components/angular/angular',
+        canvasjs: '//cdnjs.cloudflare.com/ajax/libs/canvasjs/1.4.1/canvas.min'
     },
     shim: {
         'angular' : {'exports' : 'angular'}
