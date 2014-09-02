@@ -6,7 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <script src="../../lib/angular/angular.js"></script>
     <script src="../../lib/lodash/lodash.compat.js"></script>
     <script src="../../lib/jquery/jquery.js"></script>
     <script src="../../lib/bootstrap/bootstrap.js"></script>
@@ -16,15 +15,9 @@
             FastClick.attach(document.body);
         }, false);
     </script>
-    <script src="../../lib/canvasjs.min.js"></script>
 
-    <script src="../js/chart.js"></script>
-    <script src="../ts/utils.js"></script>
-    <script src="../ts/checks/utils.js"></script>
     <script src="../ts/checks/evaluate.js"></script>
     <script src="../ts/checks/calculate.js"></script>
-    <script src="../ts/app.js"></script>
-    <script src="../ts/checks/controller.js"></script>
     <!--    <script src="//localhost:35729/livereload.js"></script> -->
 
     <link rel="stylesheet" href="../../lib/bootstrap/bootstrap.css">
@@ -95,5 +88,6 @@
             <pre>outcome={{outcome | json}}</pre>
         </div>
         -->
+    <script data-main="../js/main" src="../../bower_components/requirejs/require.js"></script>
 </body>
 </html>
