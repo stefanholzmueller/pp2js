@@ -4,7 +4,7 @@ module.exports = function (grunt) {
         bower: {
             dist: {
                 options: {
-                    targetDir: 'dist/lib'
+                    targetDir: 'dist/bower_components'
                 }
             },
             install: {

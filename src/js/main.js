@@ -19,7 +19,7 @@ window.name = "NG_DEFER_BOOTSTRAP!";
 
 require( [
     'angular',
-    'app'
+    'pp2'
 ], function(angular, app) {
     var $html = angular.element(document.getElementsByTagName('html')[0]);
 
