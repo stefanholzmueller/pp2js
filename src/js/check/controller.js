@@ -71,5 +71,15 @@ define(['angular', 'chart'], function (angular) {
             dataPoints.push({ y: partitioned[1].count, color: "#bb0000", toolTipContent: "misslungen" });
             return dataPoints;
         }
+
+        function difficultyToString(difficulty) {
+            if (difficulty > 0) {
+                return "erschwert um " + difficulty;
+            } else if (difficulty < 0) {
+                return "erleichtert um " + (-difficulty);
+            } else {
+                return "nicht modifiziert";
+            }
+        }
     }]);
 });
