@@ -24,18 +24,6 @@ module.exports = function (grunt) {
             },
             src: ['**/*']
         },
-        tsd: {
-            refresh: {
-                options: {
-                    command: 'reinstall',
-                    latest: true,
-                    config: 'tsd.json',
-                    opts: {
-                        // props from tsd.Options
-                    }
-                }
-            }
-        },
         watch: {
             files: ['**/*'],
             options: {
@@ -48,7 +36,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
-    grunt.loadNpmTasks('grunt-tsd');
 
     grunt.registerTask('dist', ['bower:dist', 'copy', 'gh-pages']);
 }
