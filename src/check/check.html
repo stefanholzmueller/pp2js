@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <script src="../../bower_components/fastclick/lib/fastclick.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            FastClick.attach(document.body);
+        }, false);
+    </script>
+
+    <!--    <script src="//localhost:35729/livereload.js"></script> -->
+
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../pp2.css">
+
+    <title>Probenprophet 2.0 - Fertigkeitsproben</title>
+</head>
+<body data-ng-app="pp2">
+<div data-ng-controller="CheckController">
+    <div class="container">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="attributesInput" class="control-label col-xs-4">Eigenschaften</label>
+
+                <div class="col-xs-8">
+                    <input ng-repeat="i in [0,1,2]" id="attributesInput" class="form-control" type="number" data-ng-model="check.attributes[i]">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="valueInput" class="control-label col-xs-4">Wert</label>
+
+                <div class="col-xs-8">
+                    <input id="valueInput" class="form-control" type="number" data-ng-model="check.value">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="difficultyInput" class="control-label col-xs-4">Erschwernis</label>
+
+                <div class="col-xs-8">
+                    <input id="difficultyInput" class="form-control" type="number" data-ng-model="check.difficulty">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="check.options.minimumQuality"> Minimaleffekt
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+        </form>
+    </div>
+</div>
+<!--
+                    <li class="check_form">
+                        <input type="checkbox" id="checkboxFesteMatrix" data-ng-change="recalculate()"
+                                data-ng-model="check.festeMatrix" ng-disabled="check.wildeMagie || check.spruchhemmung">
+                        <label for="checkboxFesteMatrix">Vorteil "Feste Matrix"</label>
+                    </li>
+                    <li class="check_form">
+                        <input type="checkbox" id="checkboxWildeMagie" data-ng-change="recalculate()"
+                                data-ng-model="check.wildeMagie" ng-disabled="check.festeMatrix">
+                        <label for="checkboxWildeMagie">Nachteil "Wilde Magie" / "Tollpatsch"</label>
+                    </li>
+                    <li class="check_form">
+                        <input type="checkbox" id="checkboxSpruchhemmung" data-ng-change="recalculate()"
+                                data-ng-model="check.spruchhemmung" ng-disabled="check.festeMatrix">
+                        <label for="checkboxSpruchhemmung">Nachteil "Spruchhemmung"</label>
+                    </li>
+                </ul>
+            </fieldset>
+        </div>
+        <div style="float: right">
+            <pre>statistics={{statistics | json}}</pre>
+            <pre>outcome={{outcome | json}}</pre>
+        </div>
+        -->
+    <script data-main="../main" src="../../bower_components/requirejs/require.js"></script>
+</body>
+</html>
