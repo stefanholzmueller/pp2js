@@ -1,7 +1,5 @@
-'use strict';
-
-
-define(['lodash'], function (_) {
+var evaluator = (function (_) {
+    'use strict';
 
     function successOrFailure(minimumQuality, attributes, value, difficulty, dice) {
         var ease = value - difficulty;
@@ -134,4 +132,4 @@ define(['lodash'], function (_) {
         }
     };
 
-});
+})(_);

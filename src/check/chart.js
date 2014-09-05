@@ -1,7 +1,5 @@
-'use strict';
-
-
-define(['angular', 'canvasjs'], function (angular) {
+(function (angular) {
+    'use strict';
 
     return angular.module('pp2.chart', []).directive('canvasjsChart', function () {
         return {
@@ -21,4 +19,4 @@ define(['angular', 'canvasjs'], function (angular) {
             template: '<div id="{{id}}" style="height: 100%; width: 100%;" class="center-block">'
         };
     });
-});
+})(angular);

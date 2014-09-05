@@ -1,7 +1,5 @@
-'use strict';
-
-
-define(['angular', 'check/calculator', 'check/chart'], function (angular, calculator) {
+(function (angular, _, calculator) {
+    'use strict';
 
     return angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scope', function ($scope) {
         var check = $scope.check = {
@@ -83,4 +81,4 @@ define(['angular', 'check/calculator', 'check/chart'], function (angular, calcul
             }
         }
     }]);
-});
+})(angular, _, calculator);

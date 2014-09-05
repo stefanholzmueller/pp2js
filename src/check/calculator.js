@@ -1,7 +1,5 @@
-'use strict';
-
-
-define(['lodash', 'check/evaluator'], function (_, evaluator) {
+var calculator = (function (_, evaluator) {
+    'use strict';
 
     var MAX_PIPS = 20;
     var COMBINATIONS = buildCombinations();
@@ -82,4 +80,4 @@ define(['lodash', 'check/evaluator'], function (_, evaluator) {
         })
 
     };
-});
+})(_, evaluator);
