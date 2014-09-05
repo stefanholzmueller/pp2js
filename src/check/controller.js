@@ -21,7 +21,29 @@
         ];
         $scope.currentTab = $scope.tabs[0];
 
+        $scope.getPieData = function () {
+            var partitioned = calculator.calculatePartitionedMemoized(check);
+            return [
+                {
+                    type: "pie",
+                    startAngle: -90,
+                    axisX: {
+                        margin: 0
+                    },
+                    axisY: {
+                        margin: 0
+                    },
+                    dataPoints: toCanvasjsPieDataPoints(partitioned)
+                }
+            ];
+        }
+
+        function getBarData() {
+
+        }
+
         $scope.$watch("check", function (newCheck) {
+            return;
             var partitioned = calculator.calculatePartitionedMemoized(newCheck);
             $scope.pieData = [
                 {
