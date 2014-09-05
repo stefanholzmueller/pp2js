@@ -64,8 +64,19 @@
                     </div>
                 </div>
             </div>
-            <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
-            <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-repeat="tab in tabs" ng-class="{active: tab == currentTab}"><a href="#" ng-click="switchTab(tab)">{{ tab.title }}</a></li>
+            </ul>
+            <div class="col-xs-12">
+                <div ng-include="currentTab.template"></div>
+            </div>
+            <script type="text/ng-template" id="pie.tpl.html">
+                <canvasjs-chart id="pieChart" check="check" getter="getPieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            </script>
+            <script type="text/ng-template" id="bar.tpl.html">
+                <canvasjs-chart id="barChart" check="check" getter="getBarData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            </script>
         </form>
     </div>
 </div>
