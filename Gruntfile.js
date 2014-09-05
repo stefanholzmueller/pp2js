@@ -13,6 +13,7 @@ module.exports = function (grunt) {
                 files: [
                     {expand: true, src: ['src/**'], dest: 'dist/'},
                     {expand: true, src: ['lib/**'], dest: 'dist/'},
+                    {expand: true, src: ['bower_components/bootstrap/dist/css/bootstrap.css.map'], dest: 'dist/lib/bootstrap/', flatten: true},
                     {expand: true, src: ['index.html'], dest: 'dist/'}
                 ]
             }
@@ -20,7 +21,7 @@ module.exports = function (grunt) {
         'gh-pages': {
             options: {
                 base: 'dist',
-		push: true
+                push: true
             },
             src: ['**/*']
         },
