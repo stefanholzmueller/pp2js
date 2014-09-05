@@ -64,8 +64,15 @@
                     </div>
                 </div>
             </div>
-            <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
-            <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            <div class="col-xs-12">
+                <div ng-include="currentTab.template"></div>
+            </div>
+            <script type="text/ng-template" id="pie.tpl.html">
+                <canvasjs-chart id="pieChart" data="pieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            </script>
+            <script type="text/ng-template" id="bar.tpl.html">
+                <canvasjs-chart id="barChart" data="barData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+            </script>
         </form>
     </div>
 </div>

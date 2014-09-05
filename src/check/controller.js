@@ -11,6 +11,16 @@
             }
         };
 
+        $scope.tabs = [
+            {
+                template: "pie.tpl.html"
+            },
+            {
+                template: "bar.tpl.html"
+            }
+        ];
+        $scope.currentTab = $scope.tabs[0];
+
         $scope.$watch("check", function (newCheck) {
             var partitioned = calculator.calculatePartitionedMemoized(newCheck);
             $scope.pieData = [
