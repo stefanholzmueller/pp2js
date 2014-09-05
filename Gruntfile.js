@@ -25,6 +25,18 @@ module.exports = function (grunt) {
             },
             src: ['**/*']
         },
+        uglify: {
+            dist: {}
+        },
+        useminPrepare: {
+            html: 'src/check/check.html',
+            options: {
+                root: 'dist/'
+            }
+        },
+        usemin: {
+            html: 'dist/src/check/check.html'
+        },
         watch: {
             files: ['**/*'],
             options: {
@@ -34,9 +46,13 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-gh-pages');
+    grunt.loadNpmTasks('grunt-usemin');
 
-    grunt.registerTask('dist', ['bower', 'copy', 'gh-pages']);
-}
+ //   grunt.registerTask('dist', ['bower', 'copy', 'gh-pages']);
+    grunt.registerTask('dist', ['copy', 'useminPrepare', 'concat:generated', 'uglify:generated', 'usemin']);
+};
