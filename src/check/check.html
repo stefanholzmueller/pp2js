@@ -65,8 +65,10 @@
                 </div>
             </div>
 
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-repeat="tab in tabs" ng-class="{active: tab == currentTab}"><a href="#" ng-click="switchTab(tab)">{{ tab.title }}</a></li>
+            </ul>
             <div class="col-xs-12">
-                <button ng-click="switchTab()"></button>
                 <div ng-include="currentTab.template"></div>
             </div>
             <script type="text/ng-template" id="pie.tpl.html">

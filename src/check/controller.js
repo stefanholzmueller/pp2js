@@ -13,15 +13,17 @@
 
         $scope.tabs = [
             {
-                template: "pie.tpl.html"
+                template: "pie.tpl.html",
+                title: "Grafik"
             },
             {
-                template: "bar.tpl.html"
+                template: "bar.tpl.html",
+                title: "Vergleich"
             }
         ];
         $scope.currentTab = $scope.tabs[0];
-        $scope.switchTab = function () {
-            $scope.currentTab = $scope.tabs[1];
+        $scope.switchTab = function (tab) {
+            $scope.currentTab = tab;
         };
 
         $scope.getPieData = function () {
