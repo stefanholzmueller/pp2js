@@ -1,7 +1,5 @@
-'use strict';
-
-
-define(['angular'], function (angular) {
+(function () {
+    'use strict';
 
     var module = angular.module('pp2.utils', []);
 
@@ -48,4 +46,4 @@ define(['angular'], function (angular) {
             }
         }
     }
-});
+})();
