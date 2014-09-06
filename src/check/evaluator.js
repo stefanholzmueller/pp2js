@@ -1,4 +1,5 @@
-var evaluator = (function (_) {
+/*global _ */
+var evaluator = (function () {
     'use strict';
 
     function successOrFailure(minimumQuality, attributes, value, difficulty, dice) {
@@ -132,4 +133,4 @@ var evaluator = (function (_) {
         }
     };
 
-})(_);
+})();

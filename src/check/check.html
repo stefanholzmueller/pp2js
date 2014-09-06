@@ -6,6 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+    <link rel="stylesheet" href="../../lib/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="../pp2.css">
+
     <script src="../../lib/fastclick/fastclick.js"></script>
     <script>
         window.addEventListener('load', function () {
@@ -24,9 +27,6 @@
     <script src="../../src/check/controller.js"></script>
 
     <!--    <script src="//localhost:35729/livereload.js"></script> -->
-
-    <link rel="stylesheet" href="../../lib/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="../pp2.css">
 
     <title>Probenprophet 2.0 - Fertigkeitsproben</title>
 </head>
@@ -63,6 +63,29 @@
                         </label>
                     </div>
                 </div>
+                <div class="col-xs-offset-4 col-xs-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="check.options.festeMatrix" ng-disabled="check.wildeMagie || check.spruchhemmung"> Vorteil
+                            "Feste Matrix"
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-offset-4 col-xs-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="check.options.wildeMagie" ng-disabled="check.festeMatrix"> Nachteil "Wilde Magie" /
+                            "Tollpatsch"
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-offset-4 col-xs-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="check.options.spruchhemmung" ng-disabled="check.festeMatrix"> Nachteil "Spruchhemmung"
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <ul class="nav nav-tabs" role="tablist">
@@ -80,29 +103,5 @@
         </form>
     </div>
 </div>
-<!--
-                    <li class="check_form">
-                        <input type="checkbox" id="checkboxFesteMatrix" data-ng-change="recalculate()"
-                                data-ng-model="check.festeMatrix" ng-disabled="check.wildeMagie || check.spruchhemmung">
-                        <label for="checkboxFesteMatrix">Vorteil "Feste Matrix"</label>
-                    </li>
-                    <li class="check_form">
-                        <input type="checkbox" id="checkboxWildeMagie" data-ng-change="recalculate()"
-                                data-ng-model="check.wildeMagie" ng-disabled="check.festeMatrix">
-                        <label for="checkboxWildeMagie">Nachteil "Wilde Magie" / "Tollpatsch"</label>
-                    </li>
-                    <li class="check_form">
-                        <input type="checkbox" id="checkboxSpruchhemmung" data-ng-change="recalculate()"
-                                data-ng-model="check.spruchhemmung" ng-disabled="check.festeMatrix">
-                        <label for="checkboxSpruchhemmung">Nachteil "Spruchhemmung"</label>
-                    </li>
-                </ul>
-            </fieldset>
-        </div>
-        <div style="float: right">
-            <pre>statistics={{statistics | json}}</pre>
-            <pre>outcome={{outcome | json}}</pre>
-        </div>
-        -->
 </body>
 </html>
