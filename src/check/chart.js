@@ -63,7 +63,8 @@ var chart = (function () {
                     return {
                         y: success ? check.result.success.count : check.result.failure.count,
                         label: difficultyToString(check.difficulty),
-                        color: (originalCheck.difficulty === check.difficulty ? color : lightColor)
+                        color: (originalCheck.difficulty === check.difficulty ? color : lightColor),
+                        toolTipContent: (success ? "Gelungen" : "Misslungen") + percentageToolTipContent
                     };
                 });
             }
