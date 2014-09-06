@@ -41,17 +41,15 @@ var calculator = (function (evaluator) {
         });
         var successes = _.filter(outcomes, "success");
         var counts = _.countBy(successes, "quality");
-        var pairs = _.pairs(counts);
-        var sorted = _.sortBy(pairs, function (a, b) {
-            return a[0] - b[0];
-        }).reverse();
-        var partitions = _.map(sorted, function (x) {
-            return { quality: x[0], count: x[1] };
+        var partitions = [];
+        _.forOwn(counts, function (value, key) {
+            partitions.push({ quality: parseInt(key), count: value });
         });
+        var sorted = _.sortBy(partitions, "quality").reverse();
 
         return {
             success: {
-                count: successes.length, partitions: partitions
+                count: successes.length, partitions: sorted
             },
             failure: {
                 count: outcomes.length - successes.length
@@ -103,4 +101,4 @@ var calculator = (function (evaluator) {
         })
 
     };
-} (evaluator));
+}(evaluator));

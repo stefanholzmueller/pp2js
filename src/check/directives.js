@@ -1,6 +1,6 @@
 /*global angular, CanvasJS */
 angular.module('pp2.chart', []).directive('canvasjsChart', function () {
-    'use strict'
+    'use strict';
 
     CanvasJS.addCultureInfo("de", {
         decimalSeparator: ",",
