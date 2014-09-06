@@ -68,7 +68,7 @@ var calculator = (function (evaluator) {
                         return value.toString();
                     }
                 });
-                return values.join('|');
+                return '{' + values.join('|') + '}';
             }
 
             var cacheKey = _.cloneDeep(check);
