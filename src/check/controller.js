@@ -1,4 +1,4 @@
-/*global angular */
+/*global angular, calculator, chart */
 angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scope', function ($scope) {
     'use strict';
 
@@ -35,34 +35,8 @@ angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scop
     };
 
     $scope.getPieData = function () {
-        function toCanvasjsPieDataPoints(partitioned) {
-            var partitions = partitioned[0].partitions;
-            var dataPoints = _.map(partitions, function (p) {
-                return {
-                    x: p.quality,
-                    y: p.count,
-                    color: colorSuccess,
-                    toolTipContent: "gelungen mit {x}"
-                };
-            });
-            dataPoints.push({ y: partitioned[1].count, color: colorFailure, toolTipContent: "misslungen" });
-            return dataPoints;
-        }
-
         var partitioned = calculator.calculatePartitionedMemoized($scope.check);
-        return [
-            {
-                type: "pie",
-                startAngle: -90,
-                axisX: {
-                    margin: 0
-                },
-                axisY: {
-                    margin: 0
-                },
-                dataPoints: toCanvasjsPieDataPoints(partitioned)
-            }
-        ];
+        return chart.toPieData(partitioned);
     };
 
     $scope.getBarData = function () {

@@ -60,7 +60,7 @@ var calculator = (function (evaluator) {
         _makeCacheKey: function (check) {
             function toStringDeterministic(o) {
                 var keys = _.keys(o).sort();
-                var values = _.map(keys, function(key) {
+                var values = _.map(keys, function (key) {
                     var value = o[key];
                     if (_.isObject(value)) {
                         return toStringDeterministic(value);
@@ -93,7 +93,7 @@ var calculator = (function (evaluator) {
 
             return { probability: probability, average: average };
         },
-
+        calculatePartitioned: calculatePartitioned,
         calculatePartitionedMemoized: _.memoize(calculatePartitioned, function (check) {
             return this._makeCacheKey(check);
         })

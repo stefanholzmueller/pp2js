@@ -18,6 +18,7 @@ module.exports = function(config) {
       'lib/lodash/*.js',
       'src/check/evaluator.js',
       'src/check/calculator.js',
+      'src/check/chart.js',
       'test/**/*.js'
     ],
 
