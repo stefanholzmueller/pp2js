@@ -57,8 +57,23 @@ var calculator = (function (evaluator) {
 
 
     return {
-        _makeCacheKey: function(check) {
-            return _.sortBy(check.attributes) + "|" + check.value + "|" + check.difficulty + "|" + check.options.minimumQuality+ "|" + check.options.festeMatrix + "|" + check.options.wildeMagie + "|" + check.options.spruchhemmung;
+        _makeCacheKey: function (check) {
+            function toStringDeterministic(o) {
+                var keys = _.keys(o).sort();
+                var values = _.map(keys, function(key) {
+                    var value = o[key];
+                    if (_.isObject(value)) {
+                        return toStringDeterministic(value);
+                    } else {
+                        return value.toString();
+                    }
+                });
+                return values.join('|');
+            }
+
+            var cacheKey = _.cloneDeep(check);
+            cacheKey.attributes.sort(); // increased chance of cache hits (ordering is irrelevant for the calculation)
+            return toStringDeterministic(cacheKey);
         },
         calculate: function (options, attributes, value, difficulty) {
             var evaluate = _.partial(evaluator.evaluate, options, attributes, value, difficulty);
