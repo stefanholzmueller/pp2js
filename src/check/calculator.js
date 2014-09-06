@@ -49,10 +49,14 @@ var calculator = (function (evaluator) {
             return { quality: x[0], count: x[1] };
         });
 
-        return [
-            { label: "gelungen!", count: successes.length, partitions: partitions },
-            { label: "misslungen", count: 8000 - successes.length }
-        ];
+        return {
+            success: {
+                count: successes.length, partitions: partitions
+            },
+            failure: {
+                count: outcomes.length - successes.length
+            }
+        };
     }
 
 
@@ -99,4 +103,4 @@ var calculator = (function (evaluator) {
         })
 
     };
-})(evaluator);
+} (evaluator));

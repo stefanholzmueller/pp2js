@@ -10,7 +10,7 @@ var chart = (function () {
 
     return {
         toPieData: function (partitioned) {
-            var dataPoints = _.map(partitioned[0].partitions, function (p) {
+            var dataPoints = _.map(partitioned.success.partitions, function (p) {
                 return {
                     x: p.quality,
                     y: p.count,
@@ -18,7 +18,7 @@ var chart = (function () {
                     toolTipContent: "Gelungen mit Qualität {x}" + percentageToolTipContent
                 };
             });
-            dataPoints.push({ y: partitioned[1].count, color: colorFailure, toolTipContent: "Misslungen" + percentageToolTipContent });
+            dataPoints.push({ y: partitioned.failure.count, color: colorFailure, toolTipContent: "Misslungen" + percentageToolTipContent });
 
             return [
                 {
