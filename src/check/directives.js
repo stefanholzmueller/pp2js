@@ -2,6 +2,11 @@
 angular.module('pp2.chart', []).directive('canvasjsChart', function () {
     'use strict'
 
+    CanvasJS.addCultureInfo("de", {
+        decimalSeparator: ",",
+        digitGroupSeparator: "."
+    });
+
     return {
         restrict: 'E',
         scope: {
@@ -10,7 +15,7 @@ angular.module('pp2.chart', []).directive('canvasjsChart', function () {
             getter: "="
         },
         link: function (scope) {
-            var chart = new CanvasJS.Chart(scope.id, {});
+            var chart = new CanvasJS.Chart(scope.id, { culture: 'de' });
 
             scope.$watch("check", function () {
                 chart.options.data = scope.getter();
