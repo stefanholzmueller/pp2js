@@ -1,4 +1,5 @@
-var calculator = (function (_, evaluator) {
+/*global _ */
+var calculator = (function (evaluator) {
     'use strict';
 
     var MAX_PIPS = 20;
@@ -56,6 +57,9 @@ var calculator = (function (_, evaluator) {
 
 
     return {
+        _makeCacheKey: function(check) {
+            return _.sortBy(check.attributes) + "|" + check.value + "|" + check.difficulty + "|" + check.options.minimumQuality+ "|" + check.options.festeMatrix + "|" + check.options.wildeMagie + "|" + check.options.spruchhemmung;
+        },
         calculate: function (options, attributes, value, difficulty) {
             var evaluate = _.partial(evaluator.evaluate, options, attributes, value, difficulty);
             var outcomes = _.map(COMBINATIONS, function (dice) {
@@ -76,8 +80,8 @@ var calculator = (function (_, evaluator) {
         },
 
         calculatePartitionedMemoized: _.memoize(calculatePartitioned, function (check) {
-            return _.sortBy(check.attributes) + "|" + check.value + "|" + check.difficulty + "|" + check.options.minimumQuality;
+            return this._makeCacheKey(check);
         })
 
     };
-})(_, evaluator);
+})(evaluator);

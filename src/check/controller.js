@@ -1,3 +1,4 @@
+/*global angular */
 angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scope', function ($scope) {
     'use strict';
 
@@ -11,7 +12,10 @@ angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scop
         value: 4,
         difficulty: 0,
         options: {
-            minimumQuality: true
+            minimumQuality: true,
+            festeMatrix: false,
+            wildeMagie: false,
+            spruchhemmung: false
         }
     };
 
