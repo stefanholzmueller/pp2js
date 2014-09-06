@@ -77,24 +77,6 @@ var calculator = (function (evaluator) {
             cacheKey.attributes.sort(); // increased chance of cache hits (ordering is irrelevant for the calculation)
             return toStringDeterministic(cacheKey);
         },
-        calculate: function (options, attributes, value, difficulty) {
-            var evaluate = _.partial(evaluator.evaluate, options, attributes, value, difficulty);
-            var outcomes = _.map(COMBINATIONS, function (dice) {
-                return evaluate(dice);
-            });
-
-            var successes = _.filter(outcomes, function (o) {
-                return o.success;
-            });
-            var totalQuality = _.reduce(successes, function (sum, success) {
-                return sum + success.quality;
-            }, 0);
-
-            var probability = successes.length / outcomes.length;
-            var average = totalQuality / successes.length;
-
-            return { probability: probability, average: average };
-        },
         calculatePartitioned: calculatePartitioned,
         calculatePartitionedMemoized: _.memoize(calculatePartitioned, function (check) {
             return this._makeCacheKey(check);
