@@ -41,47 +41,46 @@ var calculator = (function (evaluator) {
         });
         var successes = _.filter(outcomes, "success");
         var counts = _.countBy(successes, "quality");
-        var pairs = _.pairs(counts);
-        var sorted = _.sortBy(pairs, function (a, b) {
-            return a[0] - b[0];
-        }).reverse();
-        var partitions = _.map(sorted, function (x) {
-            return { quality: x[0], count: x[1] };
+        var partitions = [];
+        _.forOwn(counts, function (value, key) {
+            partitions.push({ quality: parseInt(key), count: value });
         });
+        var sorted = _.sortBy(partitions, "quality").reverse();
 
-        return [
-            { label: "gelungen!", count: successes.length, partitions: partitions },
-            { label: "misslungen", count: 8000 - successes.length }
-        ];
+        return {
+            success: {
+                count: successes.length, partitions: sorted
+            },
+            failure: {
+                count: outcomes.length - successes.length
+            }
+        };
     }
 
 
     return {
-        _makeCacheKey: function(check) {
-            return _.sortBy(check.attributes) + "|" + check.value + "|" + check.difficulty + "|" + check.options.minimumQuality+ "|" + check.options.festeMatrix + "|" + check.options.wildeMagie + "|" + check.options.spruchhemmung;
+        _makeCacheKey: function (check) {
+            function toStringDeterministic(o) {
+                var keys = _.keys(o).sort();
+                var values = _.map(keys, function (key) {
+                    var value = o[key];
+                    if (_.isObject(value)) {
+                        return toStringDeterministic(value);
+                    } else {
+                        return value.toString();
+                    }
+                });
+                return '{' + values.join('|') + '}';
+            }
+
+            var cacheKey = _.cloneDeep(check);
+            cacheKey.attributes.sort(); // increased chance of cache hits (ordering is irrelevant for the calculation)
+            return toStringDeterministic(cacheKey);
         },
-        calculate: function (options, attributes, value, difficulty) {
-            var evaluate = _.partial(evaluator.evaluate, options, attributes, value, difficulty);
-            var outcomes = _.map(COMBINATIONS, function (dice) {
-                return evaluate(dice);
-            });
-
-            var successes = _.filter(outcomes, function (o) {
-                return o.success;
-            });
-            var totalQuality = _.reduce(successes, function (sum, success) {
-                return sum + success.quality;
-            }, 0);
-
-            var probability = successes.length / outcomes.length;
-            var average = totalQuality / successes.length;
-
-            return { probability: probability, average: average };
-        },
-
+        calculatePartitioned: calculatePartitioned,
         calculatePartitionedMemoized: _.memoize(calculatePartitioned, function (check) {
             return this._makeCacheKey(check);
         })
 
     };
-})(evaluator);
+}(evaluator));
