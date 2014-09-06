@@ -4,13 +4,30 @@
     /*global module, test, equal, ok, _, calculator */
     module("check.calculator");
 
-
-// TODO: spruchhemmung true, 20,20,20,0,0 => ~14% failure
-
-
-    test("no wilde magie", function () {
-        var result = calculator.calculatePartitioned({ attributes: [12, 12, 12], value: 4, difficulty: 0, options: { minimumQuality: true } });
-        equal(result, '[{"label":"gelungen","count":3688,"partitions":[{"quality":"4","count":1752},{"quality":"3","count":429},{"quality":"2","count":465},{"quality":"1","count":1042}]},{"label":"misslungen","count":4312}]');
+    test("spectacular successes", function () {
+        var result = calculator.calculatePartitioned({ attributes: [11, 11, 11], value: 0, difficulty: 13, options: { minimumQuality: true } });
+        equal(result.success.count, 58);
     });
+
+    test("spectacular failures", function () {
+        var result = calculator.calculatePartitioned({ attributes: [20, 20, 20], value: 0, difficulty: 0, options: { minimumQuality: true } });
+        equal(result.failure.count, 58);
+    });
+
+    test("spectacular failures with festeMatrix", function () {
+        var result = calculator.calculatePartitioned({ attributes: [20, 20, 20], value: 0, difficulty: 0, options: { minimumQuality: true, festeMatrix: true } });
+        equal(result.failure.count, 7);
+    });
+
+    test("spectacular failures with wildeMagie", function () {
+        var result = calculator.calculatePartitioned({ attributes: [20, 20, 20], value: 0, difficulty: 0, options: { minimumQuality: true, wildeMagie: true } });
+        equal(result.failure.count, 224);
+    });
+
+    test("spruchhemmung causes high failure rate even with high skill", function () {
+        var result = calculator.calculatePartitioned({ attributes: [20, 20, 20], value: 0, difficulty: 0, options: { minimumQuality: true, spruchhemmung: true } });
+        equal(result.failure.count, 1102);
+    });
+
 
 }());
