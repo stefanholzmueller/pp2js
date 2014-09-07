@@ -2,3 +2,7 @@ input[type=number].form-control {
     width: 4em;
     display: inline;
 }
+
+button.log {
+    margin: 10px;
+}
