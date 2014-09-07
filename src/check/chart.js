@@ -58,13 +58,15 @@ var chart = (function () {
 
         function toDataPoints(checks, success) {
             return _.map(checks, function (check) {
-                var color = success ? colorSuccess : colorFailure,
+                var count = success ? check.result.success.count : check.result.failure.count,
+                    text = success ? "Gelungen" : "Misslungen",
+                    color = success ? colorSuccess : colorFailure,
                     lightColor = success ? colorSuccessLight : colorFailureLight;
                 return {
-                    y: success ? check.result.success.count : check.result.failure.count,
+                    y: count,
                     label: difficultyToString(check.difficulty),
                     color: (originalCheck.difficulty === check.difficulty ? color : lightColor),
-                    toolTipContent: (success ? "Gelungen" : "Misslungen") + percentageToolTipContent
+                    toolTipContent: text + percentageToolTipContent
                 };
             });
         }

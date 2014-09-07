@@ -33,6 +33,12 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
             template: "bar.tpl.html",
             title: "Vergleich"
         },
+        /*
+        {
+            template: "roll.tpl.html",
+            title: "Zufallswurf"
+        },
+        */
         {
             template: "log.tpl.html",
             title: "Protokoll"
