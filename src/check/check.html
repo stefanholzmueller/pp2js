@@ -16,6 +16,7 @@
         }, false);
     </script>
     <script src="../../lib/angular/angular.js"></script>
+    <script src="../../lib/angular-locale_de.js"></script>
     <script src="../../lib/lodash/lodash.compat.js"></script>
     <script src="../../lib/canvasjs.min.js"></script>
 
@@ -103,10 +104,10 @@
             </script>
             <script type="text/ng-template" id="log.tpl.html">
                 <div class="col-xs-7 col-lg-3">
-                    <button class="btn btn-primary btn-block log">Probe abspeichern</button>
+                    <button type="button" class="btn btn-primary btn-block log" ng-click="addLog()">Probe abspeichern</button>
                 </div>
                 <div class="col-xs-5 col-lg-offset-7 col-lg-2">
-                    <button class="btn btn-danger btn-block log" ng-disabled="log.length == 0" ng-click="clearLog()">
+                    <button type="button" class="btn btn-danger btn-block log" ng-click="clearLog()" ng-disabled="log.length == 0">
                         Leeren
                     </button>
                 </div>
@@ -123,35 +124,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>( 12 / 12 / 12 )</td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>45,231%</td>
-                            <td>0.81456</td>
-                            <td>0.5672</td>
-                        </tr>
-                        <tr>
-                            <td>(12/12/12)</td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>45,231%</td>
-                            <td>0.81456</td>
-                            <td>0.5672</td>
-                        </tr> <tr>
-                            <td>(12/12/12)</td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>45,231%</td>
-                            <td>0.81456</td>
-                            <td>0.5672</td>
-                        </tr> <tr>
-                            <td>(12/12/12)</td>
-                            <td>4</td>
-                            <td>0</td>
-                            <td>45,231%</td>
-                            <td>0.81456</td>
-                            <td>0.5672</td>
+                        <tr ng-repeat="check in log">
+                            <td>{{ check.attributes[0] }} / {{ check.attributes[1] }} / {{ check.attributes[2] }}</td>
+                            <td>{{ check.value }}</td>
+                            <td>{{ check.difficulty | signed }}</td>
+                            <td>{{ check.result.success.probability | percentage }}</td>
+                            <td>{{ check.result.success.quality | number:5 }}</td>
+                            <td>{{ check.result.quality | number:5 }}</td>
                         </tr>
                         </tbody>
                     </table>

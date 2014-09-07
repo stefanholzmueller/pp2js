@@ -2,7 +2,7 @@
     'use strict';
 
     /*global module, test, equal, ok, _, calculator */
-    module("check.calculator");
+    module("check.calculator.special");
 
     test("spectacular successes", function () {
         var result = calculator.calculatePartitioned({ attributes: [11, 11, 11], value: 0, difficulty: 13, options: { minimumQuality: true } });

@@ -2,20 +2,26 @@
 var calculator = (function (evaluator) {
     'use strict';
 
-    var MAX_PIPS = 20;
-    var COMBINATIONS = buildCombinations();
-
-    function buildCombinations() {
-        var combinations = [];
-        for (var die1 = 1; die1 <= MAX_PIPS; die1++) {
-            for (var die2 = 1; die2 <= MAX_PIPS; die2++) {
-                for (var die3 = 1; die3 <= MAX_PIPS; die3++) {
+    function buildCombinations(pips) {
+        var die1, die2, die3,
+            combinations = [];
+        for (die1 = 1; die1 <= pips; die1++) {
+            for (die2 = 1; die2 <= pips; die2++) {
+                for (die3 = 1; die3 <= pips; die3++) {
                     combinations.push([die1, die2, die3]);
                 }
             }
         }
         Object.freeze(combinations);
         return combinations;
+    }
+
+    var COMBINATIONS = buildCombinations(20);
+
+    function sum(array) {
+        return _.reduce(array, function (a, x) {
+            return a + x;
+        }, 0);
     }
 
     function calculatePartitioned(check) {
@@ -46,19 +52,25 @@ var calculator = (function (evaluator) {
             partitions.push({ quality: parseInt(key), count: value });
         });
         var sorted = _.sortBy(partitions, "quality").reverse();
+        var qualities = _.map(successes, "quality");
+        var totalQuality = sum(qualities);
 
         return {
             success: {
-                count: successes.length, partitions: sorted
+                count: successes.length, partitions: sorted,
+                probability: successes.length / outcomes.length,
+                quality: totalQuality / successes.length
             },
             failure: {
                 count: outcomes.length - successes.length
-            }
+            },
+            quality: totalQuality / outcomes.length
         };
     }
 
 
     return {
+        _buildDiceCombinations: buildCombinations,
         _makeCacheKey: function (check) {
             function toStringDeterministic(o) {
                 var keys = _.keys(o).sort();
