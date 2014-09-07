@@ -2,7 +2,7 @@
 var chart = (function () {
     'use strict';
 
-    var percentageToolTipContent = " (#percent%)",
+    var percentageToolTipContent = ": #percent%",
         colorSuccess = "#108A10",
         colorSuccessLight = "#669666",
         colorFailure = "#BB1010",

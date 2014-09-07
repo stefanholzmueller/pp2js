@@ -1,5 +1,5 @@
-/*global angular, calculator, chart */
-angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scope', function ($scope) {
+/*global angular, _, calculator, chart */
+angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckController', ['$scope', function ($scope) {
     'use strict';
 
     $scope.check = {
@@ -14,9 +14,11 @@ angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scop
         }
     };
 
-    $scope.log = [1];
+    $scope.log = [];
     $scope.addLog = function () {
-
+        var check = _.cloneDeep($scope.check);
+        check.result = calculator.calculatePartitionedMemoized(check);
+        $scope.log.push(check);
     };
     $scope.clearLog = function () {
         $scope.log.length = 0;
