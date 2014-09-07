@@ -14,14 +14,26 @@ angular.module('pp2.check', ['pp2.chart']).controller('CheckController', ['$scop
         }
     };
 
+    $scope.log = [1];
+    $scope.addLog = function () {
+
+    };
+    $scope.clearLog = function () {
+        $scope.log.length = 0;
+    };
+
     $scope.tabs = [
         {
             template: "pie.tpl.html",
-            title: "Aufteilung"
+            title: "Details"
         },
         {
             template: "bar.tpl.html",
             title: "Vergleich"
+        },
+        {
+            template: "log.tpl.html",
+            title: "Protokoll"
         }
     ];
     $scope.currentTab = $scope.tabs[0];
