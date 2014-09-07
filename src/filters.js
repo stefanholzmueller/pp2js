@@ -6,7 +6,7 @@
     module.filter('percentage', [
         '$filter', function (filter) {
             return function (number, fractionSize) {
-                return filter('number')(number * 100, fractionSize) + " %";
+                return filter('number')(number * 100, fractionSize) + "%";
             };
         }]);
 

@@ -80,10 +80,27 @@
                 <div data-ng-include="currentTab.template"></div>
             </div>
             <script type="text/ng-template" id="pie.tpl.html">
-                <canvasjs-chart id="pieChart" check="check" getter="getPieData" class="col-lg-8 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+                <div class="col-xs-12 col-lg-3">
+                    <h4>Durchschnittliche Qualit&auml;t</h4>
+                    <ul>
+                        <li>sofern gelungen: {{ result.success.quality | number:5 }}</li>
+                        <li>&uuml;ber alle Ergebnisse: {{ result.quality | number:5 }}</li>
+                    </ul>
+                    <h4>Wahrscheinlichkeit</h4>
+                    <ul>
+                        <li>Misslungen: <span class="text-danger">{{ result.failure.probability | percentage }}</span></li>
+                        <li>Gelungen: <span class="text-success">{{ result.success.probability | percentage }}</span></li>
+                        <ul>
+                            <li data-ng-repeat="partition in result.success.partitions">
+                                mit Qualit&auml;t {{ partition.quality }}: <span class="text-success">{{ partition.probability | percentage }}</span>
+                            </li>
+                        </ul>
+                    </ul>
+                </div>
+                <canvasjs-chart id="pieChart" check="check" getter="getPieData" class="col-xs-12 col-lg-4 center-block" style="height: 333px;"></canvasjs-chart>
             </script>
             <script type="text/ng-template" id="bar.tpl.html">
-                <canvasjs-chart id="barChart" check="check" getter="getBarData" class="col-lg-7 col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+                <canvasjs-chart id="barChart" check="check" getter="getBarData" class="col-xs-12 col-lg-7 center-block" style="height: 333px;"></canvasjs-chart>
             </script>
             <script type="text/ng-template" id="roll.tpl.html">
                 TBD
