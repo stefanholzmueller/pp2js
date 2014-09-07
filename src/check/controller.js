@@ -17,8 +17,10 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
     $scope.log = [];
     $scope.addLog = function () {
         var check = _.cloneDeep($scope.check);
-        check.result = calculator.calculatePartitionedMemoized(check);
-        $scope.log.push(check);
+        $scope.log.push({
+            check: check,
+            result: calculator.calculatePartitionedMemoized(check)
+        });
     };
     $scope.clearLog = function () {
         $scope.log.length = 0;

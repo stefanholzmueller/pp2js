@@ -112,13 +112,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr data-ng-repeat="check in log">
-                            <td>{{ check.attributes[0] }} / {{ check.attributes[1] }} / {{ check.attributes[2] }}</td>
-                            <td>{{ check.value }}</td>
-                            <td>{{ check.difficulty | signed }}</td>
-                            <td>{{ check.result.success.probability | percentage }}</td>
-                            <td>{{ check.result.success.quality | number:5 }}</td>
-                            <td>{{ check.result.quality | number:5 }}</td>
+                        <tr data-ng-repeat="entry in log">
+                            <td>{{ entry.check.attributes[0] }} / {{ entry.check.attributes[1] }} / {{ entry.check.attributes[2] }}</td>
+                            <td>{{ entry.check.value }}</td>
+                            <td>{{ entry.check.difficulty | signed }}</td>
+                            <td>{{ entry.result.success.probability | percentage }}</td>
+                            <td>{{ entry.result.success.quality | number:5 }}</td>
+                            <td>{{ entry.result.quality | number:5 }}</td>
                         </tr>
                         </tbody>
                     </table>
