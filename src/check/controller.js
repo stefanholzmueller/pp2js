@@ -13,12 +13,24 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
             spruchhemmung: false
         }
     };
+    $scope.$watch("check", function () {
+        $scope.result = calculator.calculatePartitionedMemoized($scope.check);
+    }, true);
+
+    $scope.getPieData = function () {
+        return chart.toPieData($scope.result);
+    };
+
+    $scope.getBarData = function () {
+        return chart.getBarData($scope.check);
+    };
 
     $scope.log = [];
     $scope.addLog = function () {
-        var check = _.cloneDeep($scope.check);
-        check.result = calculator.calculatePartitionedMemoized(check);
-        $scope.log.push(check);
+        $scope.log.push({
+            check: _.cloneDeep($scope.check),
+            result: _.cloneDeep($scope.result)
+        });
     };
     $scope.clearLog = function () {
         $scope.log.length = 0;
@@ -51,12 +63,4 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
         $scope.currentTab = tab;
     };
 
-    $scope.getPieData = function () {
-        var partitioned = calculator.calculatePartitionedMemoized($scope.check);
-        return chart.toPieData(partitioned);
-    };
-
-    $scope.getBarData = function () {
-        return chart.getBarData($scope.check);
-    };
 }]);

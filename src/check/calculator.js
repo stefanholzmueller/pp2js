@@ -49,7 +49,7 @@ var calculator = (function (evaluator) {
         var counts = _.countBy(successes, "quality");
         var partitions = [];
         _.forOwn(counts, function (value, key) {
-            partitions.push({ quality: parseInt(key), count: value });
+            partitions.push({ quality: parseInt(key), count: value, probability: value / (outcomes.length) });
         });
         var sorted = _.sortBy(partitions, "quality").reverse();
         var qualities = _.map(successes, "quality");
@@ -57,12 +57,14 @@ var calculator = (function (evaluator) {
 
         return {
             success: {
-                count: successes.length, partitions: sorted,
+                partitions: sorted,
+                count: successes.length,
                 probability: successes.length / outcomes.length,
                 quality: totalQuality / successes.length
             },
             failure: {
-                count: outcomes.length - successes.length
+                count: outcomes.length - successes.length,
+                probability: (outcomes.length - successes.length) / outcomes.length
             },
             quality: totalQuality / outcomes.length
         };
