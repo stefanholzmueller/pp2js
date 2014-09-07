@@ -22,64 +22,68 @@ var chart = (function () {
         return a - b;
     }
 
-    return {
-        toPieData: function (partitioned) {
-            var dataPoints = _.map(partitioned.success.partitions, function (p) {
+    function toPieData(partitioned) {
+        var dataPoints = _.map(partitioned.success.partitions, function (p) {
+            return {
+                x: p.quality,
+                y: p.count,
+                color: colorSuccess,
+                toolTipContent: "Gelungen mit Qualität {x}" + percentageToolTipContent
+            };
+        });
+        dataPoints.push({ y: partitioned.failure.count, color: colorFailure, toolTipContent: "Misslungen" + percentageToolTipContent });
+
+        return [
+            {
+                type: "pie",
+                startAngle: -90,
+                axisX: {
+                    margin: 0
+                },
+                axisY: {
+                    margin: 0
+                },
+                dataPoints: dataPoints
+            }
+        ];
+    }
+
+    function getBarData(originalCheck) {
+        var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, originalCheck.difficulty]).sort(compareNumbers),
+            checks = _.map(difficulties, function (difficulty) {
+                var check = _.merge(_.cloneDeep(originalCheck), { difficulty: difficulty });
+                check.result = calculator.calculatePartitionedMemoized(check);
+                return check;
+            });
+
+        function toDataPoints(checks, success) {
+            return _.map(checks, function (check) {
+                var color = success ? colorSuccess : colorFailure,
+                    lightColor = success ? colorSuccessLight : colorFailureLight;
                 return {
-                    x: p.quality,
-                    y: p.count,
-                    color: colorSuccess,
-                    toolTipContent: "Gelungen mit Qualität {x}" + percentageToolTipContent
+                    y: success ? check.result.success.count : check.result.failure.count,
+                    label: difficultyToString(check.difficulty),
+                    color: (originalCheck.difficulty === check.difficulty ? color : lightColor),
+                    toolTipContent: (success ? "Gelungen" : "Misslungen") + percentageToolTipContent
                 };
             });
-            dataPoints.push({ y: partitioned.failure.count, color: colorFailure, toolTipContent: "Misslungen" + percentageToolTipContent });
-
-            return [
-                {
-                    type: "pie",
-                    startAngle: -90,
-                    axisX: {
-                        margin: 0
-                    },
-                    axisY: {
-                        margin: 0
-                    },
-                    dataPoints: dataPoints
-                }
-            ];
-        },
-        getBarData: function (originalCheck) {
-            var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, originalCheck.difficulty]).sort(compareNumbers),
-                checks = _.map(difficulties, function (difficulty) {
-                    var check = _.merge(_.cloneDeep(originalCheck), { difficulty: difficulty });
-                    check.result = calculator.calculatePartitionedMemoized(check);
-                    return check;
-                });
-
-            function toDataPoints(checks, success) {
-                return _.map(checks, function (check) {
-                    var color = success ? colorSuccess : colorFailure,
-                        lightColor = success ? colorSuccessLight : colorFailureLight;
-                    return {
-                        y: success ? check.result.success.count : check.result.failure.count,
-                        label: difficultyToString(check.difficulty),
-                        color: (originalCheck.difficulty === check.difficulty ? color : lightColor),
-                        toolTipContent: (success ? "Gelungen" : "Misslungen") + percentageToolTipContent
-                    };
-                });
-            }
-
-            return [
-                {
-                    type: "stackedBar100",
-                    dataPoints: toDataPoints(checks, true)
-                },
-                {
-                    type: "stackedBar100",
-                    dataPoints: toDataPoints(checks, false)
-                }
-            ];
         }
+
+        return [
+            {
+                type: "stackedBar100",
+                dataPoints: toDataPoints(checks, true)
+            },
+            {
+                type: "stackedBar100",
+                dataPoints: toDataPoints(checks, false)
+            }
+        ];
+    }
+
+    return {
+        toPieData: toPieData,
+        getBarData: getBarData
     };
 
 }());
