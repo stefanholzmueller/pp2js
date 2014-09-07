@@ -50,8 +50,8 @@
                     <input id="valueInput" class="form-control" type="number" data-ng-model="check.value">
 
                     <div class="checkbox-inline">
-                        <input id="minimumQualityInput" type="checkbox" data-ng-model="check.options.minimumQuality">
-                        <label for="minimumQualityInput">
+                        <label>
+                            <input type="checkbox" data-ng-model="check.options.minimumQuality">
                             Minimaleffekt
                         </label>
                     </div>
@@ -91,7 +91,7 @@
             <script type="text/ng-template" id="log.tpl.html">
                 <div class="col-xs-7 col-lg-3">
                     <button class="btn btn-primary btn-block log" data-ng-click="addLog()">
-                        Hinzufügen
+                        Hinzuf&uuml;gen
                     </button>
                 </div>
                 <div class="col-xs-5 col-lg-offset-7 col-lg-2">
@@ -107,8 +107,8 @@
                             <th>Wert</th>
                             <th>+/-</th>
                             <th>Chance</th>
-                            <th>Qualität (gelungen)</th>
-                            <th>Qualität (alle)</th>
+                            <th>Qualit&auml;t (gelungen)</th>
+                            <th>Qualit&auml;t (alle)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -130,19 +130,19 @@
                         <label>
                             <input type="checkbox" data-ng-model="check.options.festeMatrix"
                                    data-ng-disabled="check.options.wildeMagie || check.options.spruchhemmung">
-                            Vorteil "Feste Matrix"
+                            Vorteil &quot;Feste Matrix&quot;
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" data-ng-model="check.options.wildeMagie" data-ng-disabled="check.options.festeMatrix">
-                            Nachteil "Wilde Magie" / "Tollpatsch"
+                            Nachteil &quot;Wilde Magie&quot; / &quot;Tollpatsch&quot;
                         </label>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input type="checkbox" data-ng-model="check.options.spruchhemmung" data-ng-disabled="check.options.festeMatrix">
-                            Nachteil "Spruchhemmung"
+                            Nachteil &quot;Spruchhemmung&quot;
                         </label>
                     </div>
                 </div>
