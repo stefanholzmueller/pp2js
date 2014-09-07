@@ -91,7 +91,7 @@
                         <li>Misslungen: <span class="text-danger">{{ result.failure.probability | percentage }}</span></li>
                         <li>Gelungen: <span class="text-success">{{ result.success.probability | percentage }}</span></li>
                         <ul>
-                            <li data-ng-repeat="partition in result.success.partitions">
+                            <li data-ng-repeat="partition in result.success.partitions.slice().reverse()">
                                 mit Qualit&auml;t {{ partition.quality }}: <span class="text-success">{{ partition.probability | percentage }}</span>
                             </li>
                         </ul>
