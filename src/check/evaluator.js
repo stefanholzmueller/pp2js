@@ -123,13 +123,19 @@ var evaluator = (function () {
 
 
     return {
+        Failure: Failure,
+        Success: Success,
+        AutomaticFailure: AutomaticFailure,
+        AutomaticSuccess: AutomaticSuccess,
+        SpectacularFailure: SpectacularFailure,
+        SpectacularSuccess: SpectacularSuccess,
+        SpruchhemmungFailure: SpruchhemmungFailure,
         evaluate: function (options, attributes, value, difficulty, dice) {
             var special = specialOutcome(options, value, dice);
             if (special) {
                 return special;
-            } else {
-                return successOrFailure(options.minimumQuality, attributes, value, difficulty, dice);
             }
+            return successOrFailure(options.minimumQuality, attributes, value, difficulty, dice);
         }
     };
 
