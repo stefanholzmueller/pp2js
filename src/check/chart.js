@@ -3,6 +3,7 @@ var chart = (function () {
     'use strict';
 
     var percentageToolTipContent = ": #percent%",
+        percentFormatString = "#0.###",
         colorSuccess = "#108A10",
         colorSuccessLight = "#669666",
         colorFailure = "#BB1010",
@@ -36,6 +37,7 @@ var chart = (function () {
         return [
             {
                 type: "pie",
+                percentFormatString: percentFormatString,
                 startAngle: -90,
                 axisX: {
                     margin: 0
@@ -74,10 +76,12 @@ var chart = (function () {
         return [
             {
                 type: "stackedBar100",
+                percentFormatString: percentFormatString,
                 dataPoints: toDataPoints(checks, true)
             },
             {
                 type: "stackedBar100",
+                percentFormatString: percentFormatString,
                 dataPoints: toDataPoints(checks, false)
             }
         ];
