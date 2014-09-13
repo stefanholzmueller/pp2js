@@ -111,8 +111,8 @@
             <div class="col-xs-12 col-lg-3">
                 <h4>Durchschnittliche Qualit&auml;t</h4>
                 <ul>
-                    <li>sofern gelungen: {{ result.success.quality | number:4 }}</li>
-                    <li>&uuml;ber alle Ergebnisse: {{ result.quality | number:4 }}</li>
+                    <li>sofern gelungen: {{ result.success.quality | number }}</li>
+                    <li>&uuml;ber alle Ergebnisse: {{ result.quality | number }}</li>
                 </ul>
                 <h4>Wahrscheinlichkeit</h4>
                 <ul>
@@ -162,8 +162,8 @@
                         <td>{{ entry.check.value }}</td>
                         <td>{{ entry.check.difficulty | signed }}</td>
                         <td>{{ entry.result.success.probability | percentage }}</td>
-                        <td>{{ entry.result.success.quality | number:5 }}</td>
-                        <td>{{ entry.result.quality | number:5 }}</td>
+                        <td>{{ entry.result.success.quality | number }}</td>
+                        <td>{{ entry.result.quality | number }}</td>
                     </tr>
                     </tbody>
                 </table>
