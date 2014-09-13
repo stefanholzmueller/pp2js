@@ -6,7 +6,9 @@
     module.filter('percentage', [
         '$filter', function (filter) {
             return function (number, fractionSize) {
-                return filter('number')(number * 100, fractionSize) + "%";
+                var decimals = fractionSize || 4,
+                    percent = Math.round(number * Math.pow(10, decimals + 2)) / Math.pow(10, decimals);
+                return filter('number')(percent, fractionSize) + "%";
             };
         }]);
 

@@ -3,7 +3,7 @@ var chart = (function () {
     'use strict';
 
     var percentageToolTipContent = ": #percent%",
-        percentFormatString = "#0.###",
+        percentFormatString = "#0.####",
         colorSuccess = "#108A10",
         colorSuccessLight = "#669666",
         colorFailure = "#BB1010",
