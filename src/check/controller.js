@@ -26,17 +26,21 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
     };
 
     $scope.log = [];
+    $scope.clearLog = function () {
+        $scope.log.length = 0;
+    };
     $scope.addLog = function () {
         $scope.log.push({
             check: _.cloneDeep($scope.check),
             result: _.cloneDeep($scope.result)
         });
     };
-    $scope.clearLog = function () {
-        $scope.log.length = 0;
-    };
 
     $scope.tabs = [
+        {
+            template: "log.tpl.html",
+            title: "Protokoll"
+        },
         {
             template: "pie.tpl.html",
             title: "Details"
@@ -44,16 +48,6 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
         {
             template: "bar.tpl.html",
             title: "Vergleich"
-        },
-        /*
-        {
-            template: "roll.tpl.html",
-            title: "Zufallswurf"
-        },
-        */
-        {
-            template: "log.tpl.html",
-            title: "Protokoll"
         }
     ];
     $scope.currentTab = $scope.tabs[0];
