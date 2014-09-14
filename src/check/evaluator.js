@@ -110,10 +110,10 @@ var evaluator = (function () {
         this.success = false;
     }
 
-    function Success(quality, rest) {
+    function Success(quality, gap) {
         this.success = true;
         this.quality = quality;
-        this.rest = rest;
+        this.gap = gap;
     }
 
     function Failure(gap) {
