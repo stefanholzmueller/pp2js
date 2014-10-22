@@ -1,5 +1,7 @@
-input[type=number].form-control {
+select.form-control {
     width: 4em;
+    margin: 0 2px;
+    padding: 6px;
     display: inline;
 }
 
