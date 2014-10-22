@@ -1,11 +1,45 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
+<html lang="de">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="stylesheet" href="lib/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="src/pp2.css">
+
+    <script src="lib/fastclick/fastclick.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            FastClick.attach(document.body);
+        }, false);
+    </script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/lodash/lodash.compat.js"></script>
+    <script src="lib/canvasjs.min.js"></script>
+
+    <script src="src/angular-locale_de.js"></script>
+    <script src="src/pp2.js"></script>
+    <script src="src/filters.js"></script>
+    <script src="src/check/evaluator.js"></script>
+    <script src="src/check/calculator.js"></script>
+    <script src="src/check/chart.js"></script>
+    <script src="src/check/directives.js"></script>
+    <script src="src/check/controller.js"></script>
+
+    <!--    <script src="//localhost:35729/livereload.js"></script> -->
+
     <title>Probenprophet 2.0</title>
 </head>
-<body>
-    <a href="src/check/check.html">Fertigkeitsproben</a>
-    <a href="src/ranged/ranged.html">Fernkampf</a>
+<body data-ng-app="pp2">
+<noscript>
+    <div style="position: fixed; top: 0px; left: 0px; z-index: 3000; height: 100%; width: 100%; background-color: #FFFFFF">
+        <p style="margin-left: 10px">JavaScript muss f&uuml;r diese Anwendung eingeschalten werden.</p>
+    </div>
+</noscript>
+
+<ng-include src="'src/check/check.html'" />
+
 </body>
 </html>
