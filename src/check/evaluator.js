@@ -13,9 +13,10 @@ var evaluator = (function () {
 
     function successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveValue, skill, dice) {
         var comparisions = [dice[0] - effectiveAttributes[0], dice[1] - effectiveAttributes[1], dice[2] - effectiveAttributes[2]];
-        var usedPoints = sum(_.filter(comparisions, function (c) {
+        var exceededings = _.filter(comparisions, function (c) {
             return c > 0;
-        }));
+        });
+        var usedPoints = sum(exceededings);
 
         if (usedPoints > effectiveValue) {
             return new Failure(usedPoints - effectiveValue);
@@ -23,12 +24,8 @@ var evaluator = (function () {
             var leftoverPoints = effectiveValue - usedPoints;
             var cappedQuality = Math.min(leftoverPoints, skill);
             var quality = applyMinimumQuality(minimumQuality, cappedQuality);
-            if (usedPoints === 0) {
-                var worstDie = _.max(comparisions);
-                return new Success(quality, leftoverPoints - worstDie);
-            } else {
-                return new Success(quality, leftoverPoints);
-            }
+            var negativeGap = _.isEmpty(exceededings) ? _.max(comparisions) : 0;
+            return new Success(quality, leftoverPoints - negativeGap);
         }
     }
 
