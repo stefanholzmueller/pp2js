@@ -27,16 +27,16 @@ var calculator = (function (evaluator) {
     function calculatePartitioned(check) {
         function validateCheck(check) {
             if (!_.all(check.attributes, _.isNumber)) {
-                throw "attributes contain invalid numbers";
+                throw "attributes contain invalid numbers: " + check.attributes;
             }
             if (!_.isNumber(check.value)) {
-                throw "value is invalid";
+                throw "value is invalid: " + check.value;
             }
             if (!_.isNumber(check.difficulty)) {
-                throw "difficulty is invalid";
+                throw "difficulty is invalid: " + check.difficulty;
             }
             if (!_.isBoolean(check.options.minimumQuality)) {
-                throw "minimumQuality is invalid";
+                throw "minimumQuality is invalid: " + check.options.minimumQuality;
             }
         }
 
