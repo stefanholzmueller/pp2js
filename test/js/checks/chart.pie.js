@@ -4,7 +4,7 @@
     /*global module, test, equal, ok, _, calculator, chart */
     module("check.chart.pie");
 
-    var defaultCheck = { attributes: [12, 12, 12], value: 4, difficulty: 0, options: { minimumQuality: true, festeMatrix: false, wildeMagie: false, spruchhemmung: false } };
+    var defaultCheck = { attributes: [12, 12, 12], skill: 4, difficulty: 0, options: { minimumQuality: true, festeMatrix: false, wildeMagie: false, spruchhemmung: false } };
 
     test("datapoints for descending quality plus failure", function () {
         var data = chart.toPieData(calculator.calculatePartitioned(defaultCheck));

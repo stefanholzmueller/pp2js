@@ -6,9 +6,10 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
 
     $scope.check = {
         attributes: [12, 12, 12],
-        value: 4,
+        skill: 4,
         difficulty: 0,
         options: {
+            edition: 4,
             minimumQuality: true,
             festeMatrix: false,
             wildeMagie: false,
