@@ -1,7 +1,7 @@
 <div data-ng-controller="CheckController">
     <div class="container">
         <form class="form-horizontal" role="form">
-            <div class="form-group form-inline">
+            <div class="form-group form-inline" style="padding-top: 18px;">
                 <label for="attributesInput0" class="control-label col-xs-4 col-md-6">Eigenschaften</label>
 
                 <div class="col-xs-8 col-md-6">
@@ -68,73 +68,73 @@
                 </div>
             </div>
         </form>
+    </div>
 
-        <div class="col-lg-offset-2 col-lg-8 col-xs-12 col-md-12">
-            <ul class="nav nav-tabs" role="tablist">
-                <li data-ng-repeat="tab in tabs" data-ng-class="{active: tab == currentTab}"><a href="#" data-ng-click="switchTab(tab)">{{ tab.title }}</a></li>
-            </ul>
-            <div class="col-xs-12">
-                <div data-ng-include="currentTab.template"></div>
-            </div>
-            <script type="text/ng-template" id="pie.tpl.html">
-                <div class="col-xs-12 col-lg-5">
-                    <h4>Durchschnittliche Qualit&auml;t</h4>
-                    <ul>
-                        <li>sofern gelungen: {{ result.success.quality | number }}</li>
-                        <li>&uuml;ber alle Ergebnisse: {{ result.quality | number }}</li>
-                    </ul>
-                    <h4>Wahrscheinlichkeit</h4>
-                    <ul>
-                        <li>Misslungen: <span class="text-danger">{{ result.failure.probability | percentage }}</span></li>
-                        <li>Gelungen: <span class="text-success">{{ result.success.probability | percentage }}</span></li>
-                        <ul>
-                            <li data-ng-repeat="partition in result.success.partitions.slice().reverse()">
-                                mit Qualit&auml;t {{ partition.quality }}: <span class="text-success">{{ partition.probability | percentage }}</span>
-                            </li>
-                        </ul>
-                    </ul>
-                </div>
-                <canvasjs-chart id="pieChart" check="check" getter="getPieData" class="col-xs-12 col-lg-6 center-block" style="height: 333px;"></canvasjs-chart>
-            </script>
-            <script type="text/ng-template" id="bar.tpl.html">
-                <canvasjs-chart id="barChart" check="check" getter="getBarData" class="col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
-            </script>
-            <script type="text/ng-template" id="log.tpl.html">
-                <div class="col-xs-7 col-lg-3">
-                    <button class="btn btn-primary btn-block log" data-ng-click="addLog()">
-                        Hinzuf&uuml;gen
-                    </button>
-                </div>
-                <div class="col-xs-5 col-lg-offset-7 col-lg-2">
-                    <button class="btn btn-danger btn-block log" data-ng-click="clearLog()" data-ng-disabled="log.length == 0">
-                        Leeren
-                    </button>
-                </div>
-                <div class="col-xs-12 table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Eigenschaften</th>
-                            <th>Wert</th>
-                            <th>+/-</th>
-                            <th>Chance</th>
-                            <th>Qualit&auml;t (gelungen)</th>
-                            <th>Qualit&auml;t (alle)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr data-ng-repeat="entry in log">
-                            <td>{{ entry.check.attributes[0] }} / {{ entry.check.attributes[1] }} / {{ entry.check.attributes[2] }}</td>
-                            <td>{{ entry.check.value }}</td>
-                            <td>{{ entry.check.difficulty | signed }}</td>
-                            <td>{{ entry.result.success.probability | percentage }}</td>
-                            <td>{{ entry.result.success.quality | number }}</td>
-                            <td>{{ entry.result.quality | number }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </script>
+    <div class="col-lg-offset-3 col-lg-6 col-xs-12 col-md-12">
+        <ul class="nav nav-tabs" role="tablist">
+            <li data-ng-repeat="tab in tabs" data-ng-class="{active: tab == currentTab}"><a href="#" data-ng-click="switchTab(tab)">{{ tab.title }}</a></li>
+        </ul>
+        <div class="col-xs-12">
+            <div data-ng-include="currentTab.template"></div>
         </div>
+        <script type="text/ng-template" id="pie.tpl.html">
+            <div class="col-xs-12 col-lg-5">
+                <h4>Durchschnittliche Qualit&auml;t</h4>
+                <ul>
+                    <li>sofern gelungen: {{ result.success.quality | number }}</li>
+                    <li>&uuml;ber alle Ergebnisse: {{ result.quality | number }}</li>
+                </ul>
+                <h4>Wahrscheinlichkeit</h4>
+                <ul>
+                    <li>Misslungen: <span class="text-danger">{{ result.failure.probability | percentage }}</span></li>
+                    <li>Gelungen: <span class="text-success">{{ result.success.probability | percentage }}</span></li>
+                    <ul>
+                        <li data-ng-repeat="partition in result.success.partitions.slice().reverse()">
+                            mit Qualit&auml;t {{ partition.quality }}: <span class="text-success">{{ partition.probability | percentage }}</span>
+                        </li>
+                    </ul>
+                </ul>
+            </div>
+            <canvasjs-chart id="pieChart" check="check" getter="getPieData" class="col-xs-12 col-lg-6 center-block" style="height: 333px;"></canvasjs-chart>
+        </script>
+        <script type="text/ng-template" id="bar.tpl.html">
+            <canvasjs-chart id="barChart" check="check" getter="getBarData" class="col-xs-12 center-block" style="height: 333px;"></canvasjs-chart>
+        </script>
+        <script type="text/ng-template" id="log.tpl.html">
+            <div class="col-xs-7 col-lg-3">
+                <button class="btn btn-primary btn-block log" data-ng-click="addLog()">
+                    Hinzuf&uuml;gen
+                </button>
+            </div>
+            <div class="col-xs-5 col-lg-offset-7 col-lg-2">
+                <button class="btn btn-danger btn-block log" data-ng-click="clearLog()" data-ng-disabled="log.length == 0">
+                    Leeren
+                </button>
+            </div>
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Eigenschaften</th>
+                        <th>Wert</th>
+                        <th>+/-</th>
+                        <th>Chance</th>
+                        <th>Qualit&auml;t (gelungen)</th>
+                        <th>Qualit&auml;t (alle)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="entry in log">
+                        <td>{{ entry.check.attributes[0] }} / {{ entry.check.attributes[1] }} / {{ entry.check.attributes[2] }}</td>
+                        <td>{{ entry.check.value }}</td>
+                        <td>{{ entry.check.difficulty | signed }}</td>
+                        <td>{{ entry.result.success.probability | percentage }}</td>
+                        <td>{{ entry.result.success.quality | number }}</td>
+                        <td>{{ entry.result.quality | number }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </script>
     </div>
 </div>
