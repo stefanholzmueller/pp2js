@@ -24,11 +24,11 @@
                 </div>
             </div>
             <div class="form-group form-inline">
-                <label for="difficultyInput" class="control-label col-xs-4 col-md-6">Erschwernis</label>
+                <label for="difficultyInput" class="control-label col-xs-4 col-md-6">Modifikation</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <select id="difficultyInput" data-ng-model="check.difficulty" data-ng-options="o for o in _.range(30, -31, -1)"
-                            class="form-control" style="width: 3.93em;"></select>
+                    <select id="difficultyInput" data-ng-model="check.difficulty" data-ng-options="(o | signed) for o in _.range(30, -31, -1)"
+                            class="form-control" style="padding: 2px;"></select>
 
                     <!--
                     <div class="checkbox">

@@ -14,11 +14,7 @@
 
     module.filter('signed', function () {
         return function (number) {
-            if (number > 0) {
-                return "+" + number;
-            } else {
-                return number;
-            }
+            return (number >= 0 ? "+" : "") + number;
         };
     });
 }());
