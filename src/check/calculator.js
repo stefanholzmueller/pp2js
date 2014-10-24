@@ -29,8 +29,8 @@ var calculator = (function (evaluator) {
             if (!_.all(check.attributes, _.isNumber)) {
                 throw "attributes contain invalid numbers: " + check.attributes;
             }
-            if (!_.isNumber(check.value)) {
-                throw "value is invalid: " + check.value;
+            if (!_.isNumber(check.skill)) {
+                throw "skill is invalid: " + check.skill;
             }
             if (!_.isNumber(check.difficulty)) {
                 throw "difficulty is invalid: " + check.difficulty;
@@ -41,7 +41,7 @@ var calculator = (function (evaluator) {
         }
 
         validateCheck(check);
-        var evaluate = _.partial(evaluator.evaluate, check.options, check.attributes, check.value, check.difficulty);
+        var evaluate = _.partial(evaluator.evaluate, check.options, check.attributes, check.skill, check.difficulty);
         var outcomes = _.map(COMBINATIONS, function (dice) {
             return evaluate(dice);
         });
