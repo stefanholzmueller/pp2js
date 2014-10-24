@@ -2,6 +2,8 @@
 angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckController', ['$scope', function ($scope) {
     'use strict';
 
+    $scope._ = _;
+
     $scope.check = {
         attributes: [12, 12, 12],
         value: 4,

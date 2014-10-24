@@ -5,14 +5,18 @@
                 <label for="attributesInput0" class="control-label col-xs-4 col-md-6">Eigenschaften</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <input data-ng-repeat="i in [0,1,2]" id="attributesInput{{i}}" class="form-control" type="number" data-ng-model="check.attributes[i]">
+                    <select data-ng-repeat="i in [0,1,2]" id="attributesInput{{i}}" data-ng-model="check.attributes[i]" class="form-control">
+                        <option data-ng-repeat="o in _.range(20, 0, -1)">{{o}}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group form-inline">
                 <label for="valueInput" class="control-label col-xs-4 col-md-6">Wert</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <input id="valueInput" class="form-control" type="number" data-ng-model="check.value">
+                    <select id="valueInput" class="form-control" data-ng-model="check.value">
+                        <option data-ng-repeat="o in _.range(25, -6, -1)">{{o}}</option>
+                    </select>
 
                     <div class="checkbox-inline">
                         <label>
@@ -26,7 +30,10 @@
                 <label for="difficultyInput" class="control-label col-xs-4 col-md-6">Erschwernis</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <input id="difficultyInput" class="form-control" type="number" data-ng-model="check.difficulty">
+                    <select id="difficultyInput" class="form-control" data-ng-model="check.difficulty">
+                        <option data-ng-repeat="o in _.range(30, -31, -1)">{{o}}</option>
+                    </select>
+
                     <!--
                     <div class="checkbox">
                         <label>

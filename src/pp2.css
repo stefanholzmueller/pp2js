@@ -2,6 +2,11 @@ input[type=number].form-control {
     width: 4em;
     display: inline;
 }
+select.form-control {
+    width: 4em;
+    padding: 6px;
+    display: inline;
+}
 
 button.log {
     margin: 10px 0px;
