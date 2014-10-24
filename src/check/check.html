@@ -1,22 +1,19 @@
 <div data-ng-controller="CheckController">
     <div class="container">
         <form class="form-horizontal" role="form">
-            <div class="form-group">
+            <div class="form-group form-inline">
                 <label for="attributesInput0" class="control-label col-xs-4 col-md-6">Eigenschaften</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <select data-ng-repeat="i in [0,1,2]" id="attributesInput{{i}}" data-ng-model="check.attributes[i]" class="form-control">
-                        <option data-ng-repeat="o in _.range(20, 0, -1)">{{o}}</option>
-                    </select>
+                    <select data-ng-repeat="i in [0,1,2]" id="attributesInput{{i}}" data-ng-model="check.attributes[i]"
+                            ng-options="o for o in _.range(20, 0, -1)" class="form-control"></select>
                 </div>
             </div>
             <div class="form-group form-inline">
                 <label for="valueInput" class="control-label col-xs-4 col-md-6">Wert</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <select id="valueInput" class="form-control" data-ng-model="check.value">
-                        <option data-ng-repeat="o in _.range(25, -6, -1)">{{o}}</option>
-                    </select>
+                    <select id="valueInput" data-ng-model="check.value" data-ng-options="o for o in _.range(25, -6, -1)" class="form-control"></select>
 
                     <div class="checkbox-inline">
                         <label>
@@ -30,9 +27,8 @@
                 <label for="difficultyInput" class="control-label col-xs-4 col-md-6">Erschwernis</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <select id="difficultyInput" class="form-control" data-ng-model="check.difficulty">
-                        <option data-ng-repeat="o in _.range(30, -31, -1)">{{o}}</option>
-                    </select>
+                    <select id="difficultyInput" data-ng-model="check.difficulty" data-ng-options="o for o in _.range(30, -31, -1)"
+                            class="form-control" style="width: 3.93em;"></select>
 
                     <!--
                     <div class="checkbox">
