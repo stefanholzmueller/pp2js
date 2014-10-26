@@ -27,17 +27,15 @@
                 <label for="difficultyInput" class="control-label col-xs-4 col-md-6">Modifikatoren</label>
 
                 <div class="col-xs-8 col-md-6">
-                    <select id="difficultyInput" data-ng-model="check.difficulty" data-ng-options="(o | signed) for o in _.range(30, -31, -1)"
+                    <select id="difficultyInput" data-ng-model="check.difficulty" data-ng-options="o.value as showDifficulty(o.value) for o in difficultyRange"
                             class="form-control" style="padding: 2px;"></select>
 
-                    <!--
-                    <div class="checkbox">
+                    <div class="checkbox-inline">
                         <label>
-                            <input type="checkbox">
-                            DSA5 Notation
+                            <input type="checkbox" data-ng-model="check.options.edition" data-ng-false-value="4" data-ng-true-value="5">
+                            DSA 5 Regeln
                         </label>
                     </div>
-                    -->
                 </div>
             </div>
             <div class="form-group">

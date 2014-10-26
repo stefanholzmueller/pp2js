@@ -18,7 +18,15 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
     };
     $scope.$watch("check", function () {
         $scope.result = calculator.calculatePartitionedMemoized($scope.check);
+        $scope.difficultyRange = _.map(_.range(30, -31, -1), function (x) {
+            return { label: "" + x, value: x };
+        });
     }, true);
+
+    $scope.showDifficulty = function (difficulty) {
+        var modifier = $scope.check.options.edition == 5 ? -difficulty : difficulty;
+        return (modifier >= 0 ? "+" : "") + modifier;
+    };
 
     $scope.getPieData = function () {
         return chart.toPieData($scope.result);
