@@ -23,7 +23,8 @@ var chart = (function () {
         return a - b;
     }
 
-    function toPieData(partitioned) {
+    function getPieData(check) {
+        var partitioned = calculator.calculatePartitionedMemoized(check);
         var dataPoints = _.map(partitioned.success.partitions, function (p) {
             return {
                 x: p.quality,
@@ -89,7 +90,7 @@ var chart = (function () {
     }
 
     return {
-        toPieData: toPieData,
+        getPieData: getPieData,
         getBarData: getBarData
     };
 

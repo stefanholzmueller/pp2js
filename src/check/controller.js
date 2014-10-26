@@ -29,7 +29,17 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
     };
 
     $scope.getPieData = function () {
-        return chart.toPieData($scope.result);
+        return chart.getPieData($scope.check);
+    };
+    $scope.getPieData4 = function () {
+        var check = _.cloneDeep($scope.check);
+        check.options.edition = 4;
+        return chart.getPieData(check);
+    };
+    $scope.getPieData5 = function () {
+        var check = _.cloneDeep($scope.check);
+        check.options.edition = 5;
+        return chart.getPieData(check);
     };
 
     $scope.getBarData = function () {
