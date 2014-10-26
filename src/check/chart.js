@@ -23,7 +23,8 @@ var chart = (function () {
         return a - b;
     }
 
-    function toPieData(partitioned) {
+    function getPieData(check) {
+        var partitioned = calculator.calculatePartitionedMemoized(check);
         var dataPoints = _.map(partitioned.success.partitions, function (p) {
             return {
                 x: p.quality,
@@ -51,7 +52,8 @@ var chart = (function () {
     }
 
     function getBarData(originalCheck) {
-        var difficulties = _.uniq([12, 8, 4, 0, -4, -8, -12, originalCheck.difficulty]).sort(compareNumbers),
+        var range = _.range(12, -13, -4),
+            difficulties = _.uniq(range.concat([originalCheck.difficulty])).sort(compareNumbers),
             checks = _.map(difficulties, function (difficulty) {
                 var check = _.merge(_.cloneDeep(originalCheck), { difficulty: difficulty });
                 check.result = calculator.calculatePartitionedMemoized(check);
@@ -88,7 +90,7 @@ var chart = (function () {
     }
 
     return {
-        toPieData: toPieData,
+        getPieData: getPieData,
         getBarData: getBarData
     };
 

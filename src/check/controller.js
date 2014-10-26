@@ -18,10 +18,28 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
     };
     $scope.$watch("check", function () {
         $scope.result = calculator.calculatePartitionedMemoized($scope.check);
+        $scope.difficultyRange = _.map(_.range(30, -31, -1), function (x) {
+            return { label: "" + x, value: x };
+        });
     }, true);
 
+    $scope.showDifficulty = function (difficulty) {
+        var modifier = $scope.check.options.edition == 5 ? -difficulty : difficulty;
+        return (modifier >= 0 ? "+" : "") + modifier;
+    };
+
     $scope.getPieData = function () {
-        return chart.toPieData($scope.result);
+        return chart.getPieData($scope.check);
+    };
+    $scope.getPieData4 = function () {
+        var check = _.cloneDeep($scope.check);
+        check.options.edition = 4;
+        return chart.getPieData(check);
+    };
+    $scope.getPieData5 = function () {
+        var check = _.cloneDeep($scope.check);
+        check.options.edition = 5;
+        return chart.getPieData(check);
     };
 
     $scope.getBarData = function () {
@@ -41,16 +59,20 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
 
     $scope.tabs = [
         {
-            template: "log.tpl.html",
-            title: "Protokoll"
-        },
-        {
             template: "pie.tpl.html",
             title: "Details"
         },
         {
             template: "bar.tpl.html",
             title: "Vergleich"
+        },
+        {
+            template: "log.tpl.html",
+            title: "Protokoll"
+        },
+        {
+            template: "editions.tpl.html",
+            title: "DSA 4 vs. DSA 5"
         }
     ];
     $scope.currentTab = $scope.tabs[0];

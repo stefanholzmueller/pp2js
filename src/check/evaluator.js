@@ -2,26 +2,44 @@
 var evaluator = (function () {
     'use strict';
 
-    function successOrFailure(minimumQuality, attributes, skill, difficulty, dice) {
-        var ease = skill - difficulty;
-        var effectiveValue = Math.max(ease, 0);
-        var effectiveAttributes = ease < 0 ? _.map(attributes, function (a) {
-            return a + ease;
-        }) : attributes;
-        return successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveValue, skill, dice);
+    function successOrFailure(options, attributes, skill, difficulty, dice) {
+        var effectiveValuesFn = options.edition == 5 ? effectiveValuesForEdition5 : effectiveValuesForEdition4;
+        var effectiveValues = effectiveValuesFn(attributes, skill, difficulty);
+        return successOrFailureInternal(options.minimumQuality, effectiveValues.effectiveAttributes, effectiveValues.effectiveSkill, skill, dice);
     }
 
-    function successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveValue, skill, dice) {
-        var comparisions = [dice[0] - effectiveAttributes[0], dice[1] - effectiveAttributes[1], dice[2] - effectiveAttributes[2]];
-        var exceededings = _.filter(comparisions, function (c) {
-            return c > 0;
+    function effectiveValuesForEdition5(attributes, skill, difficulty) {
+        return {
+            effectiveAttributes: _.map(attributes, function (a) {
+                return a - difficulty;
+            }),
+            effectiveSkill: skill
+        };
+    }
+
+    function effectiveValuesForEdition4(attributes, skill, difficulty) {
+        var ease = skill - difficulty;
+        return {
+            effectiveAttributes: ease < 0 ? _.map(attributes, function (a) {
+                return a + ease;
+            }) : attributes,
+            effectiveSkill: Math.max(ease, 0)
+        };
+    }
+
+    function successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveSkill, skill, dice) {
+        var comparisions = _.map(_.zip(dice, effectiveAttributes), function (pair) {
+            return pair[0] - pair[1];
+        });
+        var exceededings = _.filter(comparisions, function (x) {
+            return x > 0;
         });
         var usedPoints = sum(exceededings);
 
-        if (usedPoints > effectiveValue) {
-            return new Failure(usedPoints - effectiveValue);
+        if (usedPoints > effectiveSkill) {
+            return new Failure(usedPoints - effectiveSkill);
         } else {
-            var leftoverPoints = effectiveValue - usedPoints;
+            var leftoverPoints = effectiveSkill - usedPoints;
             var cappedQuality = Math.min(leftoverPoints, skill);
             var quality = applyMinimumQuality(minimumQuality, cappedQuality);
             var negativeGap = _.isEmpty(exceededings) ? _.max(comparisions) : 0;
@@ -132,8 +150,9 @@ var evaluator = (function () {
             if (special) {
                 return special;
             }
-            return successOrFailure(options.minimumQuality, attributes, skill, difficulty, dice);
+            return successOrFailure(options, attributes, skill, difficulty, dice);
         }
     };
 
-})();
+})
+();
