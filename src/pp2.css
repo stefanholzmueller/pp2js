@@ -8,3 +8,8 @@ select.form-control {
 button.log {
     margin: 10px 0px;
 }
+
+.chart {
+    width: 100%;
+    height: 333px;
+}
