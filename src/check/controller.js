@@ -41,16 +41,16 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
 
     $scope.tabs = [
         {
-            template: "log.tpl.html",
-            title: "Protokoll"
-        },
-        {
             template: "pie.tpl.html",
             title: "Details"
         },
         {
             template: "bar.tpl.html",
             title: "Vergleich"
+        },
+        {
+            template: "log.tpl.html",
+            title: "Protokoll"
         }
     ];
     $scope.currentTab = $scope.tabs[0];
