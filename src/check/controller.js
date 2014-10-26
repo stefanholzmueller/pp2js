@@ -59,6 +59,10 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
         {
             template: "log.tpl.html",
             title: "Protokoll"
+        },
+        {
+            template: "editions.tpl.html",
+            title: "DSA 4 vs. DSA 5"
         }
     ];
     $scope.currentTab = $scope.tabs[0];
