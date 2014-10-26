@@ -3,12 +3,28 @@ var evaluator = (function () {
     'use strict';
 
     function successOrFailure(options, attributes, skill, difficulty, dice) {
+        var effectiveValuesFn = options.edition === 5 ? effectiveValuesForEdition5 : effectiveValuesForEdition4;
+        var effectiveValues = effectiveValuesFn(attributes, skill, difficulty);
+        return successOrFailureInternal(options.minimumQuality, effectiveValues.effectiveAttributes, effectiveValues.effectiveSkill, skill, dice);
+    }
+
+    function effectiveValuesForEdition5(attributes, skill, difficulty) {
+        return {
+            effectiveAttributes: _.map(attributes, function (a) {
+                return a - difficulty;
+            }),
+            effectiveSkill: skill
+        };
+    }
+
+    function effectiveValuesForEdition4(attributes, skill, difficulty) {
         var ease = skill - difficulty;
-        var effectiveSkill = Math.max(ease, 0);
-        var effectiveAttributes = ease < 0 ? _.map(attributes, function (a) {
-            return a + ease;
-        }) : attributes;
-        return successOrFailureInternal(options.minimumQuality, effectiveAttributes, effectiveSkill, skill, dice);
+        return {
+            effectiveAttributes: ease < 0 ? _.map(attributes, function (a) {
+                return a + ease;
+            }) : attributes,
+            effectiveSkill: Math.max(ease, 0)
+        };
     }
 
     function successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveSkill, skill, dice) {
@@ -138,4 +154,5 @@ var evaluator = (function () {
         }
     };
 
-})();
+})
+();
