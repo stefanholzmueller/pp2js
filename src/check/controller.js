@@ -68,7 +68,7 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
         },
         {
             template: "log.tpl.html",
-            title: "Protokoll"
+            title: "Clipboard"
         },
         {
             template: "editions.tpl.html",
