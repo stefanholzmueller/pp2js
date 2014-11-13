@@ -34,7 +34,7 @@
 </head>
 <body data-ng-app="pp2">
 <noscript>
-    <div style="position: fixed; top: 0px; left: 0px; z-index: 3000; height: 100%; width: 100%; background-color: #FFFFFF">
+    <div style="position: fixed; top: 0; left: 0; z-index: 3000; height: 100%; width: 100%; background-color: #FFFFFF">
         <p style="margin-left: 10px">JavaScript muss f&uuml;r diese Anwendung eingeschalten werden.</p>
     </div>
 </noscript>
@@ -46,7 +46,7 @@
 
     <p>
         Analyse von Fertigkeitsproben des Rollenspiels <i>Das Schwarze Auge</i>.
-        Beim Ablegen einer 3W20-Probe ist nicht immer offensichtlich wie hoch die Chance auf Erfolg ist und wieviele Punkte im Schnitt übrig bleiben.
+        Beim Ablegen einer 3W20-Probe ist nicht immer offensichtlich wie hoch die Chance auf Erfolg ist und wie viele Punkte im Schnitt übrig bleiben.
         Hier kannst Du diese Werte berechnen und vergleichen.
     </p>
 
@@ -59,7 +59,7 @@
     <p>&nbsp;</p>
 </div>
 
-<ng-include src="'src/check/check.html'"/>
+<div data-ng-include="'src/check/check.html'"></div>
 
 </body>
 </html>
