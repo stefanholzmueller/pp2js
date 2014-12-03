@@ -1,8 +1,8 @@
-/*global angular */
+/*global angular, _ */
 
 var module = angular.module('pp2.ranged', [ 'pp2.utils' ]);
 
-module.controller('RangedController', [ '$scope', 'RangedService', 'Util', function ($scope, service, util) {
+module.controller('RangedController', [ '$scope', 'RangedService', function ($scope, service) {
     'use strict';
 
     $scope.options = service.options;
@@ -44,13 +44,13 @@ module.controller('RangedController', [ '$scope', 'RangedService', 'Util', funct
 
     function recalculate(newValue) {
         $scope.difficulty = service.calculateDifficulty(newValue[0], newValue[1]);
-        $scope.difficultySum = util.sum($scope.difficulty);
+        $scope.difficultySum = _.reduce($scope.difficulty, function(a, b) { return a + b; }, 0);
     }
 
     $scope.$watch('[ modifications, character ]', recalculate, true);
 } ]);
 
-module.factory('RangedService', [ 'Util', function (util) {
+module.factory('RangedService', [ function () {
     'use strict';
 
     return {
@@ -62,7 +62,7 @@ module.factory('RangedService', [ 'Util', function (util) {
             function calculcateAim(difficulty, character) {
                 var aim = mods.aim;
                 var ease = character.sf.shooter === "n" ? Math.floor(aim / 2) : Math.min(aim, 4);
-                var difficultyForAim = util.sum(difficulty) - difficulty.zone - difficulty.bidding;
+                var difficultyForAim = _.reduce(difficulty, function(a, b) { return a + b; }, 0) - difficulty.zone - difficulty.bidding;
                 var positiveDifficulty = Math.max(difficultyForAim, 0);
                 return -Math.min(positiveDifficulty, ease);
             }
@@ -74,7 +74,7 @@ module.factory('RangedService', [ 'Util', function (util) {
                 combat: mods.movement.type === "combat" ? (mods.movement.combat.h * 3 + mods.movement.combat.ns * 2) : 0,
                 zone: lookup(mods.zone.type, {
                     "humanoid": mods.zone.humanoid.difficulty[character.sf.shooter],
-                    "quadruped": mods.zone.quadruped.difficulty[character.sf.shooter],
+                    "quadruped": mods.zone.quadruped.difficulty[character.sf.shooter]
                 }, 0) + (mods.zone.moving ? 2 : 0),
                 bidding: 0, // TODO not yet implemented
                 sight: mods.sight.difficulty,
