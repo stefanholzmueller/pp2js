@@ -73,6 +73,10 @@ angular.module('pp2.check', ['pp2.chart', 'pp2.utils']).controller('CheckControl
         {
             template: "editions.tpl.html",
             title: "DSA 4 vs. DSA 5"
+        },
+        {
+            template: "privacy.tpl.html",
+            title: "Datenschutz"
         }
     ];
     $scope.currentTab = $scope.tabs[0];
