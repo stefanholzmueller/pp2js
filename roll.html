@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+    </head> 
+    <body>
+        <div>
+            <div>
+                Eigenschaften
+                <input type="number" id="attr1" value="12" min="5" max="25" size="1" onchange="calculate()">
+                <input type="number" id="attr2" value="12" min="5" max="25" size="1" onchange="calculate()">
+                <input type="number" id="attr3" value="12" min="5" max="25" size="1" onchange="calculate()">
+            </div>
+            <div>
+                Fertigkeits
+                <input type="number" id="skill" value="7" min="-3" max="25" size="1" onchange="calculate()">
+            </div>
+            <div>
+                Erschwernis
+                <input type="number" id="diffi" value="3" min="-10" max="25" size="1" onchange="calculate()">
+            </div>
+            <p>Erfolgswahrscheinlichkeit: <b id="successChance"></b></p>
+            <button onclick="roll()">Würfeln!</button>
+            <p>Würfel: <b id="dice"></b></p>
+            <p>Ergebnis: <b id="rollResult"></b></p>
+        </div>
+    </body>
+    <script>
+var evaluator = (function () {
+    'use strict';
+
+    function successOrFailure(options, attributes, skill, difficulty, dice) {
+        var effectiveValuesFn = options.edition == 5 ? effectiveValuesForEdition5 : effectiveValuesForEdition4;
+        var effectiveValues = effectiveValuesFn(attributes, skill, difficulty);
+        return successOrFailureInternal(options.minimumQuality, effectiveValues.effectiveAttributes, effectiveValues.effectiveSkill, skill, dice);
+    }
+
+    function effectiveValuesForEdition5(attributes, skill, difficulty) {
+        return {
+            effectiveAttributes: _.map(attributes, function (a) {
+                return a - difficulty;
+            }),
+            effectiveSkill: skill
+        };
+    }
+
+    function effectiveValuesForEdition4(attributes, skill, difficulty) {
+        var ease = skill - difficulty;
+        return {
+            effectiveAttributes: ease < 0 ? _.map(attributes, function (a) {
+                return a + ease;
+            }) : attributes,
+            effectiveSkill: Math.max(ease, 0)
+        };
+    }
+
+    function successOrFailureInternal(minimumQuality, effectiveAttributes, effectiveSkill, skill, dice) {
+        var comparisions = _.map(_.zip(dice, effectiveAttributes), function (pair) {
+            return pair[0] - pair[1];
+        });
+        var exceededings = _.filter(comparisions, function (x) {
+            return x > 0;
+        });
+        var usedPoints = sum(exceededings);
+
+        if (usedPoints > effectiveSkill) {
+            return new Failure(usedPoints - effectiveSkill);
+        } else {
+            var leftoverPoints = effectiveSkill - usedPoints;
+            var cappedQuality = Math.min(leftoverPoints, skill);
+            var quality = applyMinimumQuality(minimumQuality, cappedQuality);
+            var negativeGap = _.isEmpty(exceededings) ? _.max(comparisions) : 0;
+            return new Success(quality, leftoverPoints - negativeGap);
+        }
+    }
+
+    function sum(array) {
+        return _.reduce(array, function (acc, num) {
+            return acc + num;
+        }, 0);
+    }
+
+    function specialOutcome(options, skill, dice) {
+        if (all3EqualTo(dice, 1)) {
+            return new SpectacularSuccess(applyMinimumQuality(options.minimumQuality, skill));
+        } else if (twoEqualTo(dice, 1)) {
+            return new AutomaticSuccess(applyMinimumQuality(options.minimumQuality, skill));
+        } else if (all3EqualTo(dice, 20)) {
+            return new SpectacularFailure();
+        } else if (options.wildeMagie && twoGreaterThan(dice, 18)) {
+            return new AutomaticFailure();
+        } else if (options.festeMatrix && sumGreaterThan(dice, 57) && twoEqualTo(dice, 20)) {
+            return new AutomaticFailure();
+        } else if (!options.festeMatrix && twoEqualTo(dice, 20)) {
+            return new AutomaticFailure();
+        } else if (options.spruchhemmung && twoSame(dice)) {
+            return new SpruchhemmungFailure();
+        }
+    }
+
+    function all3EqualTo(dice, n) {
+        return dice[0] === n && dice[1] === n && dice[2] === n;
+    }
+
+    function twoEqualTo(dice, n) {
+        return twoFiltered(dice, function (d) {
+            return d === n;
+        });
+    }
+
+    function twoSame(dice) {
+        return dice[0] === dice[1] || dice[1] === dice[2] || dice[0] === dice[2];
+    }
+
+    function twoGreaterThan(dice, n) {
+        return twoFiltered(dice, function (d) {
+            return d > n;
+        });
+    }
+
+    function sumGreaterThan(dice, n) {
+        return (dice[0] + dice[1] + dice[2] > n);
+    }
+
+    function twoFiltered(dice, fn) {
+        return _.filter(dice, fn).length >= 2;
+    }
+
+    function applyMinimumQuality(minimumQuality, rawValue) {
+        return Math.max(rawValue, minimumQuality ? 1 : 0);
+    }
+
+    function SpectacularSuccess(quality) {
+        this.success = true;
+        this.quality = quality;
+    }
+
+    function AutomaticSuccess(quality) {
+        this.success = true;
+        this.quality = quality;
+    }
+
+    function AutomaticFailure() {
+        this.success = false;
+    }
+
+    function SpectacularFailure() {
+        this.success = false;
+    }
+
+    function SpruchhemmungFailure() {
+        this.success = false;
+    }
+
+    function Success(quality, gap) {
+        this.success = true;
+        this.quality = quality;
+        this.gap = gap;
+    }
+
+    function Failure(gap) {
+        this.success = false;
+        this.gap = gap;
+    }
+
+
+    return {
+        Failure: Failure,
+        Success: Success,
+        AutomaticFailure: AutomaticFailure,
+        AutomaticSuccess: AutomaticSuccess,
+        SpectacularFailure: SpectacularFailure,
+        SpectacularSuccess: SpectacularSuccess,
+        SpruchhemmungFailure: SpruchhemmungFailure,
+        evaluate: function (options, attributes, skill, difficulty, dice) {
+            var special = specialOutcome(options, skill, dice);
+            if (special) {
+                return special;
+            }
+            return successOrFailure(options, attributes, skill, difficulty, dice);
+        }
+    };
+
+})
+();
+
+var calculator = (function (evaluator) {
+    'use strict';
+
+    function buildCombinations(pips) {
+        var die1, die2, die3,
+            combinations = [];
+        for (die1 = 1; die1 <= pips; die1++) {
+            for (die2 = 1; die2 <= pips; die2++) {
+                for (die3 = 1; die3 <= pips; die3++) {
+                    combinations.push([die1, die2, die3]);
+                }
+            }
+        }
+        Object.freeze(combinations);
+        return combinations;
+    }
+
+    var COMBINATIONS = buildCombinations(20);
+
+    function sum(array) {
+        return _.reduce(array, function (a, x) {
+            return a + x;
+        }, 0);
+    }
+
+    function calculatePartitioned(check) {
+        function validateCheck(check) {
+            if (!_.every(check.attributes, _.isNumber)) {
+                throw "attributes contain invalid numbers: " + check.attributes;
+            }
+            if (!_.isNumber(check.skill)) {
+                throw "skill is invalid: " + check.skill;
+            }
+            if (!_.isNumber(check.difficulty)) {
+                throw "difficulty is invalid: " + check.difficulty;
+            }
+            if (!_.isBoolean(check.options.minimumQuality)) {
+                throw "minimumQuality is invalid: " + check.options.minimumQuality;
+            }
+        }
+
+        validateCheck(check);
+        var evaluate = _.partial(evaluator.evaluate, check.options, check.attributes, check.skill, check.difficulty);
+        var outcomes = _.map(COMBINATIONS, function (dice) {
+            return evaluate(dice);
+        });
+        var successes = _.filter(outcomes, "success");
+        var counts = _.countBy(successes, "quality");
+        var partitions = [];
+        _.forOwn(counts, function (value, key) {
+            partitions.push({ quality: parseInt(key), count: value, probability: value / (outcomes.length) });
+        });
+        var sorted = _.sortBy(partitions, "quality").reverse();
+        var qualities = _.map(successes, "quality");
+        var totalQuality = sum(qualities);
+
+        return {
+            success: {
+                partitions: sorted,
+                count: successes.length,
+                probability: successes.length / outcomes.length,
+                quality: totalQuality / successes.length
+            },
+            failure: {
+                count: outcomes.length - successes.length,
+                probability: (outcomes.length - successes.length) / outcomes.length
+            },
+            quality: totalQuality / outcomes.length
+        };
+    }
+
+
+    return {
+        _buildDiceCombinations: buildCombinations,
+        _makeCacheKey: function (check) {
+            function toStringDeterministic(o) {
+                var keys = _.keys(o).sort();
+                var values = _.map(keys, function (key) {
+                    var value = o[key];
+                    if (_.isObject(value)) {
+                        return toStringDeterministic(value);
+                    } else {
+                        return value.toString();
+                    }
+                });
+                return '{' + values.join('|') + '}';
+            }
+
+            var cacheKey = _.cloneDeep(check);
+            cacheKey.attributes.sort(); // increased chance of cache hits (ordering is irrelevant for the calculation)
+            return toStringDeterministic(cacheKey);
+        },
+        calculatePartitioned: calculatePartitioned,
+        calculatePartitionedMemoized: _.memoize(calculatePartitioned, function (check) {
+            return this._makeCacheKey(check);
+        })
+
+    };
+}(evaluator));
+
+        function roll() {
+            const options = { minimumQuality: true };
+            const attributes = [
+                parseInt(document.getElementById("attr1").value),
+                parseInt(document.getElementById("attr2").value),
+                parseInt(document.getElementById("attr3").value)
+            ];
+            const skill = parseInt(document.getElementById("skill").value);
+            const difficulty = parseInt(document.getElementById("diffi").value);
+            const dice = [
+                1 + Math.floor(Math.random() * 20),
+                1 + Math.floor(Math.random() * 20),
+                1 + Math.floor(Math.random() * 20)
+            ];
+            console.debug("evaluate", options, attributes, skill, difficulty, dice);
+            const result = evaluator.evaluate(options, attributes, skill, difficulty, dice);
+            console.log(result);
+            document.getElementById("dice").innerHTML = dice[0] + " / " + dice[1] + " / " + dice[2];
+            if (result.success) {
+                document.getElementById("rollResult").innerHTML = "Gelungen! Qualität: " + result.quality;
+            } else {
+                document.getElementById("rollResult").innerHTML = "Misslungen!";
+            }
+        }
+
+        function calculate() {
+            const options = { minimumQuality: true };
+            const attributes = [
+                parseInt(document.getElementById("attr1").value),
+                parseInt(document.getElementById("attr2").value),
+                parseInt(document.getElementById("attr3").value)
+            ];
+            const skill = parseInt(document.getElementById("skill").value);
+            const difficulty = parseInt(document.getElementById("diffi").value);
+            const check = {
+                options,
+                attributes,
+                skill,
+                difficulty
+            };
+            console.debug("calculate", check);
+            const result = calculator.calculatePartitionedMemoized(check);
+            console.log(result);
+            document.getElementById("successChance").innerHTML = result.success.probability * 100 + " %";
+            document.getElementById("rollResult").innerHTML = "";
+        }
+    </script>
+</html>
